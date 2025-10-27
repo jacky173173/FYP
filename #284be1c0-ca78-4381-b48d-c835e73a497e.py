@@ -11,7 +11,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from typing import Dict, Any, Tuple
 
-# --- 1. 基本設定 (Configuration) ---
+# Configuration
 
 # Configure logging
 logging.basicConfig(
@@ -25,12 +25,12 @@ logger = logging.getLogger(__name__)
 # --- Database and API Configuration ---
 DB_FILE = 'hkbu_admissions.db'
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "7cad0daa-7d09-4e4a-9f4c-d70a159c32ea" # 請務必換成你自己的 API Key
+apiKey = "7cad0daa-7d09-4e4a-9f4c-d70a159c32ea" #API Key
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
 
-# --- 2. 後端核心 logique (Backend Logic) ---
+# Backend Logic
 
 @st.cache_resource
 def initialize_chatbot():
@@ -38,7 +38,7 @@ def initialize_chatbot():
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
         if not os.path.exists(DB_FILE):
             if not os.path.exists(JSON_SOURCE_file):
-                st.error(f"錯誤：找不到源始資料檔 '{JSON_SOURCE_file}'。首次執行時必須有此檔案來建立資料庫。")
+                st.error(f"Error:can not find out the sourse file '{JSON_SOURCE_file}'")
                 return None
             setup_database(JSON_SOURCE_file)
         
@@ -53,7 +53,7 @@ def initialize_chatbot():
                 "1. Base your entire answer on the information given in the 'Context' section. Do not use any external knowledge.\n"
                 "2. When answering, first state the full programme title and code (e.g., 'Bachelor of Science (Hons) (JS2510)').\n"
                 "3. Structure your answer clearly. Use bullet points for lists like requirements or career options.\n"
-                "4. If the context does not contain the answer to the question, you MUST respond with only this exact phrase: '根據提供的資料，我找不到相關資訊。' Do not apologize or add any other text."
+                "4. If the context does not contain the answer to the question, you MUST respond with only this exact phrase: 'Based on the information provided, I can't find any relevant information.' Do not apologize or add any other text."
             )),
             ("user", "Context:\n{context}\n\nQuestion:\n{question}")
         ])
@@ -66,7 +66,7 @@ def initialize_chatbot():
         }
     except Exception as e:
         logger.critical(f"Failed to initialize chatbot: {e}", exc_info=True)
-        st.error(f"Chatbot 初始化期間發生嚴重錯誤: {e}")
+        st.error(f"Chatbot A fatal error occurred during initialization: {e}")
         return None
 
 def setup_database(json_file: str):
@@ -75,7 +75,7 @@ def setup_database(json_file: str):
         data = json.load(f)
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    # 確保每次都建立最新的表格結構
+    
     cursor.execute('DROP TABLE IF EXISTS programmes')
     cursor.execute('DROP TABLE IF EXISTS general_info')
     cursor.execute('''
@@ -132,8 +132,8 @@ def load_data_from_db():
 # --- THIS IS THE CORRECTED FUNCTION ---
 def create_documents(data):
     """
-    為RAG建立文件區塊。
-    採用「每個課程、每個主題」一個文件的策略，以提高檢索準確性。
+    Create document blocks for RAG.
+    Adopt a "one document per course, one topic" strategy to improve search accuracy.
     """
     docs = []
     logger.info("Starting to create documents from programme data...")
@@ -141,16 +141,16 @@ def create_documents(data):
         for programme in faculty.get("programmes", []):
             meta = {"programme_code": programme.get("code"), "title": programme.get("title"), "faculty": faculty.get("name")}
             
-            # 文件 1: 課程描述
+            # doc 1: programme_description
             if programme.get("programme_description"):
                 docs.append(Document(page_content=f"Programme Description for {programme.get('title')} ({programme.get('code')}): {programme.get('programme_description')}", metadata=meta))
             
-            # 文件 2: 職業前景
+            # doc 2: career_opportunities
             if programme.get("career_opportunities"):
                 careers_str = json.dumps(programme.get('career_opportunities'), indent=2, ensure_ascii=False)
                 docs.append(Document(page_content=f"Career and Study Pathways for {programme.get('title')} ({programme.get('code')}): {careers_str}", metadata=meta))
 
-            # 文件 3: 入學要求
+            # doc 3: core_subjects_requirement
             req_parts = []
             if programme.get("core_subjects_requirement"): 
                 req_parts.append(f"Core Subjects: {json.dumps(programme.get('core_subjects_requirement'))}")
@@ -158,21 +158,21 @@ def create_documents(data):
                 req_parts.append(f"Elective Subjects: {json.dumps(programme.get('elective_subjects_requirement'))}")
             if programme.get("programme_specific_admission_requirements"): 
                 req_parts.append(f"Specific Requirements: {programme.get('programme_specific_admission_requirements')}")
-            # 確保有內容才建立文件
+            
             if req_parts:
                 docs.append(Document(page_content=f"Admission Requirements for {programme.get('title')} ({programme.get('code')}): {'; '.join(req_parts)}", metadata=meta))
             
-            # 文件 4: 備註和網站 (將這些小資訊合併)
+            # doc 4: notes and inforamtion_website (Merge these clutter information)
             other_info_parts = []
             if programme.get("notes"):
                 other_info_parts.append(f"Notes: {json.dumps(programme.get('notes'), ensure_ascii=False)}")
             if programme.get("information_website"):
                 other_info_parts.append(f"Official Website: {programme.get('information_website')}")
-            # 確保有內容才建立文件
+            
             if other_info_parts:
                  docs.append(Document(page_content=f"Other Information for {programme.get('title')} ({programme.get('code')}): {'; '.join(other_info_parts)}", metadata=meta))
 
-    # 文件 5: 一般入學備註
+    # doc 5: general_notes
     if data.get("general_notes"):
         docs.append(Document(page_content=f"General Admission Notes: {json.dumps(data.get('general_notes'))}", metadata={"type": "general_notes", "title": "General Notes"}))
     
@@ -231,19 +231,19 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
     except requests.RequestException as e:
         error_details = e.response.text if e.response else str(e)
         logger.error(f"API request failed: {e}. Details: {error_details}")
-        return f"抱歉，API 請求失敗，請稍後再試。錯誤：{str(e)}"
+        return f"Sorry,API request fail,please try again：{str(e)}"
 
-# --- 3. 使用者介面 (Streamlit UI) ---
+#  Streamlit UI
 
 def main():
     st.set_page_config(page_title="HKBU Admissions Chatbot", page_icon="🎓")
-    st.title("🎓 HKBU 入學資訊問答機器人")
-    st.caption("一個基於浸大入學資料的AI問答助理")
+    st.title("🎓 HKBU Admissions Chatbot")
+    st.caption("A HKBU course chatbot")
 
     chatbot_data = initialize_chatbot()
 
     if not chatbot_data:
-        st.error("Chatbot 初始化失敗，請檢查日誌檔案 'chatbot_app.log'。")
+        st.error("Chatbot Initialization failed")
         st.stop()
     
     # Sidebar code has been removed
@@ -255,13 +255,13 @@ def main():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    if prompt := st.chat_input("請輸入你關於 HKBU 2025 入學的問題..."):
+    if prompt := st.chat_input("Please enter your HKBU course question ..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
 
         with st.chat_message("assistant"):
-            with st.spinner("思考中..."):
+            with st.spinner("Search..."):
                 response = get_response(prompt, [], chatbot_data)
                 st.markdown(response)
         
