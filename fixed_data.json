@@ -1,0 +1,1514 @@
+{
+  "title": "HKBU Programme Entrance Requirements for 2025 Entry",
+  "faculties": [
+    {
+      "name": "Faculty of Science",
+      "programmes": [
+        {
+          "code": "JS2510",
+          "title": "Bachelor of Science (Hons)",
+          "admissions_type": "Broad-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 189,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Preference will be given to applicants who have taken one or more elective subjects in Biology, Chemistry, Physics or M1/M2.",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 19.1,
+          "career_opportunities": {
+            "general": [
+              "Technology",
+              "Research",
+              "Education"
+            ],
+            "specializations": [
+              {
+                "name": "BSc (Hons) in Green Energy and Smart Technology",
+                "careers": [
+                  "Green Energy Technologist",
+                  "Smart Technology Consultant",
+                  "Sustainability Specialist",
+                  "Research and Development Engineer"
+                ],
+                "employment_opportunities": [
+                  "Hutchison Telecom",
+                  "Hong Kong Science Museum",
+                  "Hong Kong Observatory",
+                  "HSBC"
+                ],
+                "internship_opportunities": [
+                  "CLP",
+                  "EMSD",
+                  "The Hong Kong Jockey Club",
+                  "Towngas",
+                  "Shun Hing Group",
+                  "ATAL Engineering Group",
+                  "Japan Solar Energy Development (HK) Limited",
+                  "SECOM"
+                ],
+                "postgraduate_studies": [
+                  "University of Oxford",
+                  "Brown University",
+                  "Duke University",
+                  "University of Michigan",
+                  "University of California",
+                  "State University of New York",
+                  "NC State University"
+                ]
+              },
+              {
+                "name": "BSc (Hons) in Computer Science",
+                "careers": [
+                  "System Analyst",
+                  "Computer Programmer",
+                  "IT Manager",
+                  "Lecturer in Computer Science",
+                  "Banking Technology Specialist",
+                  "Customer Service Technologist",
+                  "Software Engineer",
+                  "Logistics Technology Specialist",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "BSc (Hons) in Biochemical and Testing Sciences",
+                "careers": [
+                  "Analytical Chemist",
+                  "Bioanalytical Technologist",
+                  "Quality Assurance Specialist",
+                  "Quality Control Analyst",
+                  "High School Chemistry/Science Teacher",
+                  "Laboratory Technician",
+                  "Research Personnel in Biomedical or Industrial R&D",
+                  "Chemical Sales Engineer",
+                  "Instrument Service Engineer",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "BSc (Hons) in Bioresource and Agricultural Science",
+                "careers": [
+                  "Agribusiness Specialist (e.g., crops, agrochemicals, animal feeds, equipment)",
+                  "Food Sector Professional (e.g., production, processing, distribution, retailing)",
+                  "Agrotechnology Professional",
+                  "Research and Development Scientist (e.g., crop science, soil science, environmental science, food science, animal science)",
+                  "Environmental Consultant",
+                  "Government Officer (e.g., Agriculture, Fisheries and Conservation Department, Environmental Protection Department)",
+                  "NGO Worker",
+                  "Green Group Advocate",
+                  "Tree Management Professional (e.g., arborist, tree risk assessor, tree work supervisor)",
+                  "Urban Forestry Support Fund Trainee",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "BSc (Hons) in Applied Biology",
+                "careers": [
+                  "Biotechnology Marketing Specialist",
+                  "Biotechnology Manager",
+                  "Biological Science Educator",
+                  "Nature Conservation Officer",
+                  "Environmental Monitoring Specialist",
+                  "Pollution Control Officer",
+                  "Public Health and Sanitation Officer",
+                  "Environmental Hygiene Specialist",
+                  "Arboriculture Professional",
+                  "Urban Forestry Support Fund Trainee",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "BSc (Hons) in Mathematics and Statistics",
+                "careers": [
+                  "IT Coordinator",
+                  "Assistant Professor",
+                  "Professor",
+                  "Premier Relationship Manager",
+                  "Lecturer",
+                  "Graphics Architect",
+                  "Data Analyst",
+                  "Data Scientist",
+                  "Credit Officer",
+                  "Decision Tech Modeler",
+                  "Compliance Analyst",
+                  "Further Study in Related Fields"
+                ]
+              }
+            ]
+          },
+          "notes": [
+            "Careers vary based on the programme specialization chosen in the first year."
+          ],
+          "information_website": "https://www.sci.hkbu.edu.hk/ug"
+        }
+      ]
+    },
+    {
+      "name": "Faculty of Arts and Social Sciences",
+      "programmes": [
+        {
+          "code": "JS2020",
+          "title": "Bachelor of Arts (Hons) (Chinese Language and Literature / Creative and Professional Writing / English Language and Literature / Humanities / Translation)",
+          "admissions_type": "Broad-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 105,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted (specified subjects for B)",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 21.04,
+          "career_opportunities": {
+            "general": [
+              "Administration",
+              "Education",
+              "Publishing",
+              "Media",
+              "Public Relations",
+              "Marketing",
+              "Social Service",
+              "Culture and the Arts"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=1"
+        },
+        {
+          "code": "JS2025",
+          "title": "Bachelor of Arts (Hons) in Religion, Philosophy and Ethics",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 15,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted (specified subjects for B)",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 19.5,
+          "career_opportunities": {
+            "general": [
+              "Teaching Ethics and Religious Studies (after obtaining PGDE/DipEd)",
+              "Cultural Affairs",
+              "Publication Business",
+              "Religion-related Social Service Agencies",
+              "Administration of the Civil Service",
+              "Business Sector"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=180"
+        },
+        {
+          "code": "JS2610",
+          "title": "Bachelor of Arts (Hons) / Bachelor of Social Sciences (Hons)",
+          "admissions_type": "Broad-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 139,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Category C accepted",
+          "subject_weights": {
+            "English": 2
+          },
+          "jupas_admission_score": 24.11,
+          "career_opportunities": {
+            "general": [
+              "Media",
+              "Civil Service",
+              "NGOs"
+            ],
+            "branches": [
+              {
+                "name": "BSocSc (Hons) in European Studies – French/German Stream",
+                "careers": [
+                  "Multinational Corporations",
+                  "European Government or Business Organisations (e.g., Consulates, Chambers of Commerce)",
+                  "Media and Communication",
+                  "Finance/Banking",
+                  "Trading/Merchandising",
+                  "Transport/Logistics",
+                  "Retail",
+                  "Tourism",
+                  "Cultural and Education Sectors"
+                ]
+              },
+              {
+                "name": "BSocSc (Hons) in Geography",
+                "careers": [
+                  "Commerce/Finance",
+                  "Teaching/Research",
+                  "Civil Service",
+                  "Media",
+                  "Tourism",
+                  "Administration/Management",
+                  "Community/Social Services",
+                  "Non-governmental Organisations"
+                ]
+              },
+              {
+                "name": "BSocSc (Hons) in Global & China Studies",
+                "careers": [
+                  "International Business",
+                  "Trade and Development",
+                  "Consultancy Work",
+                  "Tourism",
+                  "Marketing",
+                  "Education and Research",
+                  "Management",
+                  "Public Relations",
+                  "Media and Communication",
+                  "International Organisations",
+                  "Government Agencies",
+                  "NGOs"
+                ]
+              },
+              {
+                "name": "BSocSc (Hons) in Government & International Studies",
+                "careers": [
+                  "Civil Service",
+                  "Media",
+                  "Local and International Non-governmental Organisations",
+                  "Social Services",
+                  "Academic and Commerce",
+                  "District Organisations",
+                  "Local and International Think Tanks"
+                ]
+              },
+              {
+                "name": "BA (Hons) in History",
+                "careers": [
+                  "Teaching",
+                  "Museum and Archive Work",
+                  "Civil Service",
+                  "Cultural Affairs",
+                  "Business",
+                  "Media",
+                  "Publishing",
+                  "Journalism"
+                ]
+              },
+              {
+                "name": "BSocSc (Hons) in Sociology",
+                "careers": [
+                  "NGOs",
+                  "Social Marketing",
+                  "Social Enterprises",
+                  "Data Management",
+                  "Social Research",
+                  "Journalism and Media",
+                  "Social Services",
+                  "Education",
+                  "Civil Services",
+                  "Public Relations",
+                  "Administrative Management",
+                  "Human Resources Management"
+                ]
+              },
+              {
+                "name": "Postgraduate Studies",
+                "careers": [
+                  "Further study in related professional fields in Hong Kong and overseas"
+                ]
+              }
+            ]
+          },
+          "notes": [
+            "Careers vary based on the programme branch chosen in the third year."
+          ],
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=20"
+        },
+        {
+          "code": "JS2620",
+          "title": "Bachelor of Arts (Hons) in Physical Education and Recreation Management",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 40,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3, "note": "Subjects related to Physical Education" },
+              { "elective": "2nd", "level": 3, "note": "Subjects related to Physical Education" }
+            ]
+          },
+          "programme_specific_admission_requirements": "Applicants should possess a high level of proficiency in one or more sports.",
+          "m1_m2": "Not accepted",
+          "category_b_c": "Category B accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 21.12,
+          "career_opportunities": {
+            "general": [
+              "Sport and Recreation Programme Planning and Management"
+            ],
+            "employment_opportunities": [
+              "Leisure and Cultural Services Department (Government)",
+              "Disciplinary Forces (Government)",
+              "National Sports Associations",
+              "Hong Kong Sports Institute",
+              "Non-Government Organisations (e.g., Chinese YMCA, Hong Kong Federation of Youth Groups)",
+              "Sport Marketing and Consultancy Companies",
+              "Sports Media",
+              "Recreation Camps",
+              "Residential Clubhouses and Private Recreation Clubs",
+              "Fitness Centres",
+              "Schools/Higher Education Institutes (Teaching Physical Education)"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=21"
+        },
+        {
+          "code": "JS2660",
+          "title": "Bachelor of Social Work (Hons)",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 40,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": {
+            "English": 2,
+            "Health Management and Social Care": 1.1
+          },
+          "jupas_admission_score": 25.17,
+          "career_opportunities": {
+            "general": [
+              "Registered Social Workers (RSW) in Hong Kong according to the Social Workers Registration Ordinance 1997",
+              "Assistant Social Work Officers in the Social Welfare Department or non-governmental organisations in Hong Kong"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=25"
+        },
+        {
+          "code": "JS2940",
+          "title": "Bachelor of Social Sciences (Hons) / Bachelor of Science (Hons) in Innovation in Health and Social Well-Being",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 20,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": {
+            "English": 2,
+            "Mathematics": 1.5,
+            "M1/M2": 1.5,
+            "Health Management and Social Care": 1.5
+          },
+          "jupas_admission_score": 19.33,
+          "career_opportunities": {
+            "general": [
+              "NGOs",
+              "Social Enterprises",
+              "Health and Well-being Related Government Departments",
+              "Hospital Authorities",
+              "Health-related Private Companies (e.g., health management agency, insurance company)"
+            ]
+          },
+          "information_website": "https://transdisciplinary.hkbu.edu.hk/hswb/"
+        },
+        {
+          "code": "JS2960",
+          "title": "Bachelor of Arts and Science (Hons) in Digital Futures and Humanities",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 20,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": null,
+          "career_opportunities": {
+            "categories": [
+              {
+                "name": "Creativity and Culture",
+                "careers": [
+                  "Digital Culture Programme Manager",
+                  "Cultural Strategist",
+                  "Digital Archivist",
+                  "Digital Content Specialist",
+                  "Digital Curator",
+                  "User Experience Designer",
+                  "Arts Educator"
+                ]
+              },
+              {
+                "name": "Innovation, Policy and Value",
+                "careers": [
+                  "Innovation Policy Analyst",
+                  "Community Development Specialist",
+                  "Policy Communications Specialist",
+                  "Research and Development Manager",
+                  "Social Media Analyst"
+                ]
+              },
+              {
+                "name": "Innovation Project Management",
+                "careers": [
+                  "Innovation Project Manager",
+                  "Cultural Event Planner",
+                  "Product Innovation Manager",
+                  "Arts and Culture Entrepreneur",
+                  "Social Innovation Consultant",
+                  "Risk Management Consultant",
+                  "Environment, Social, and Governance (ESG) Specialist",
+                  "Change Management Consultant"
+                ]
+              },
+              {
+                "name": "Postgraduate Studies",
+                "careers": [
+                  "Pursuing postgraduate studies in local and overseas institutions"
+                ]
+              }
+            ]
+          },
+          "notes": [
+            "Subject to University approval"
+          ],
+          "information_website": "https://transdisciplinary.hkbu.edu.hk/difh/"
+        }
+      ]
+    },
+    {
+      "name": "School of Chinese Medicine",
+      "programmes": [
+        {
+          "code": "JS2410",
+          "title": "Bachelor of Chinese Medicine and Bachelor of Science (Hons) in Biomedical Science",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 35,
+          "credits_required_for_graduation": 224,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3, "note": "No alternative qualifications" },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3, "note": "Must be Biology or Chemistry" },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Not accepted",
+          "category_b_c": "Not accepted",
+          "subject_weights": {
+            "Chinese": 1.5,
+            "English": 1.5,
+            "Biology": 1.5,
+            "Chemistry": 1.25
+          },
+          "jupas_admission_score": 31.4,
+          "career_opportunities": {
+            "general": [
+              "Chinese Medicine Practitioner",
+              "Postgraduate Research Studies in Local or Overseas Institutions",
+              "Education and Administration in Chinese Medicine or Public Health"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=84"
+        },
+        {
+          "code": "JS2420",
+          "title": "Bachelor of Pharmacy (Hons) in Chinese Medicine",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 25,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3, "note": "No alternative qualifications" },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3, "note": "Must be Chemistry" },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Not accepted",
+          "category_b_c": "Not accepted",
+          "subject_weights": {
+            "English": 1.5,
+            "Mathematics": 1.25,
+            "Biology": 1.25,
+            "Chemistry": 1.5
+          },
+          "jupas_admission_score": 25.01,
+          "career_opportunities": {
+            "general": [
+              "CMM Quality Control in Government Sectors",
+              "Business Management in Commercial Sector of Chinese Medicines",
+              "Research Postgraduate Study in Local or Overseas Institutions for New Drug Development"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=11"
+        }
+      ]
+    },
+    {
+      "name": "School of Business",
+      "programmes": [
+        {
+          "code": "JS2110",
+          "title": "Bachelor of Business Administration (Hons) - Accounting Concentration",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 65,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Not accepted",
+          "category_b_c": "Category B accepted",
+          "subject_weights": {
+            "English": 1.5
+          },
+          "jupas_admission_score": 21.06,
+          "career_opportunities": {
+            "general": [
+              "Professional Accounting Firms",
+              "Government, Commercial, and Industrial Sectors"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=12"
+        },
+        {
+          "code": "JS2120",
+          "title": "Bachelor of Business Administration (Hons)",
+          "admissions_type": "Broad-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 240,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Not accepted",
+          "category_b_c": "Category B accepted",
+          "subject_weights": {
+            "English": 1.5
+          },
+          "jupas_admission_score": 21.12,
+          "career_opportunities": {
+            "general": [
+              "Accounting and Management",
+              "Advertising",
+              "Banking",
+              "Business Analysis",
+              "Data Analytics",
+              "Economic Analysis",
+              "Finance",
+              "IS Auditing",
+              "Management or Human Resources Management",
+              "Marketing/Sales",
+              "Research",
+              "Systems Analysis",
+              "Training",
+              "Consulting",
+              "Retail Management"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=13"
+        },
+        {
+          "code": "JS2910",
+          "title": "Bachelor of Science (Hons) in Business Computing and Data Analytics",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 40,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 19.57,
+          "career_opportunities": {
+            "general": [
+              "Business Communicators",
+              "Data Scientists",
+              "Data Developers",
+              "Data Engineers",
+              "Database Administrators",
+              "Financial Analysts",
+              "Market Researchers",
+              "IT-related Professionals",
+              "Financial Services Jobs",
+              "Entrepreneurial Ventures"
+            ]
+          },
+          "information_website": "https://bcda.comp.hkbu.edu.hk/"
+        }
+      ]
+    },
+    {
+      "name": "School of Creative Arts",
+      "programmes": [
+        {
+          "code": "JS2060",
+          "title": "Bachelor of Arts (Hons) / Bachelor of Music (Hons) (Music / Creative Industries)",
+          "admissions_type": "Broad-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 42,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 19.87,
+          "career_opportunities": {
+            "general": [
+              "Teaching",
+              "Arts Management",
+              "Music Production"
+            ],
+            "streams": [
+              {
+                "name": "Bachelor of Arts (Hons) in Music",
+                "careers": [
+                  "Teaching",
+                  "Performance",
+                  "Radio/Television",
+                  "Music-related Business",
+                  "Arts Management",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "Bachelor of Music (Hons) in Creative Industries",
+                "careers": [
+                  "Film Composer",
+                  "Video Games Composer",
+                  "Songwriter",
+                  "Contemporary Music Performer",
+                  "Music Producer",
+                  "Further Study in Related Fields"
+                ]
+              }
+            ]
+          },
+          "notes": [
+            "Careers vary based on the programme stream chosen in the second year."
+          ],
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=2"
+        },
+        {
+          "code": "JS2330",
+          "title": "Bachelor of Arts (Hons) in Film and Television",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 55,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3, "note": "Specified subjects" },
+              { "elective": "2nd", "level": 3, "note": "Specified subjects" }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": {
+            "Chinese": 1.25,
+            "English": 1.25
+          },
+          "jupas_admission_score": 22.93,
+          "career_opportunities": {
+            "general": [
+              "Creative Content Industries (e.g., Film, TV, Broadcasting, Multimedia)",
+              "Public Relations and Advertising",
+              "IT",
+              "Education",
+              "Publishing",
+              "Corporate Communication",
+              "Arts and Media Management",
+              "Journalism"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=143"
+        },
+        {
+          "code": "JS2340",
+          "title": "Bachelor of Fine Arts (Hons) in Acting for Global Screen",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 12,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 16.75,
+          "career_opportunities": {
+            "general": [
+              "Theater, Film, and Media Professionals",
+              "Festival Juries",
+              "Casting Experts",
+              "Film Directors",
+              "Performing Practitioners",
+              "Internship-based Career Opportunities"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=169"
+        },
+        {
+          "code": "JS2810",
+          "title": "Bachelor of Arts (Hons) in Visual Arts",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 40,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 19.56,
+          "career_opportunities": {
+            "general": [
+              "Creative and Cultural Sectors",
+              "Visual Arts Education",
+              "Public Relations and Communication",
+              "Marketing",
+              "Research",
+              "Freelance or Self-employed Ventures"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=264"
+        },
+        {
+          "code": "JS2920",
+          "title": "Bachelor of Arts and Science (Hons) in Arts and Technology",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 25,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": {
+            "Mathematics": 1.2
+          },
+          "jupas_admission_score": 18.29,
+          "career_opportunities": {
+            "general": [
+              "Art Specialists in Emerging Forms of Arts and Culture",
+              "Creative Industries",
+              "Integration of Content Creation and Technology"
+            ],
+            "concentrations": [
+              "Visual",
+              "Sound",
+              "Technology"
+            ]
+          },
+          "information_website": "https://transdisciplinary.hkbu.edu.hk/artt/"
+        },
+        {
+          "code": "JS2930",
+          "title": "Bachelor of Arts (Hons) in Business Administration (Global Entertainment)",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 20,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": "All subjects weight = 1 unless specified",
+          "jupas_admission_score": 18.83,
+          "career_opportunities": {
+            "general": [
+              "Entertainment Businesses",
+              "Creative Industries",
+              "Cultural Venues",
+              "Museums",
+              "Exhibition Spaces",
+              "Performing Venues",
+              "Art Groups",
+              "NGOs and Foundations",
+              "Art Traders",
+              "Event Organisers",
+              "Government",
+              "Business Operations",
+              "Public Audience Engagement",
+              "Customer Services",
+              "Front-stage Experiences"
+            ]
+          },
+          "information_website": "https://transdisciplinary.hkbu.edu.hk/bage/"
+        }
+      ]
+    },
+    {
+      "name": "School of Communication",
+      "programmes": [
+        {
+          "code": "JS2310",
+          "title": "Bachelor of Communication (Hons) (Journalism and Digital Media / Public Relations and Advertising)",
+          "admissions_type": "Broad-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 110,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3, "note": "Specified subjects" },
+              { "elective": "2nd", "level": 3, "note": "Specified subjects" }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": {
+            "Chinese": 1.25,
+            "English": 1.25
+          },
+          "jupas_admission_score": 22.81,
+          "career_opportunities": {
+            "general": [
+              "Journalism",
+              "Public Relations",
+              "Advertising"
+            ],
+            "streams": [
+              {
+                "name": "Journalism and Digital Media",
+                "careers": [
+                  "Journalist",
+                  "Digital Content Creator",
+                  "Broadcast Media Producer",
+                  "Online Media Editor",
+                  "News Reporter",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "Public Relations and Advertising",
+                "careers": [
+                  "Advertising Strategist",
+                  "Brand Manager",
+                  "Creative Director",
+                  "Brand Storyteller",
+                  "Marketing Communications Specialist",
+                  "Further Study in Related Fields"
+                ]
+              },
+              {
+                "name": "Postgraduate Studies",
+                "careers": [
+                  "Further study in related professional fields in Hong Kong and overseas"
+                ]
+              }
+            ]
+          },
+          "notes": [
+            "Careers vary based on the programme stream chosen in the first year semester 2."
+          ],
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=237"
+        },
+        {
+          "code": "JS2370",
+          "title": "Bachelor of Communication (Hons) in Game Design and Animation",
+          "admissions_type": "Programme-based",
+          "fund_type": "Government-funded",
+          "first_year_intake": 25,
+          "credits_required_for_graduation": 128,
+          "core_subjects_requirement": {
+            "Chinese": { "level": 3 },
+            "English": { "level": 3 },
+            "Citizenship and Social Development": { "level": "Attained" },
+            "Mathematics": { "level": 2 }
+          },
+          "elective_subjects_requirement": {
+            "count": 2,
+            "requirements": [
+              { "elective": "1st", "level": 3 },
+              { "elective": "2nd", "level": 3 }
+            ]
+          },
+          "programme_specific_admission_requirements": "Not specified",
+          "m1_m2": "Accepted",
+          "category_b_c": "Accepted",
+          "subject_weights": {
+            "English": 1.25,
+            "Mathematics": 1.1,
+            "Visual Arts": 1.15
+          },
+          "jupas_admission_score": 21.9,
+          "career_opportunities": {
+            "general": [
+              "Game Designer",
+              "Game Programmer",
+              "Animator",
+              "Creative Professional in Digital Media (e.g., TV, Film, Social Media)",
+              "Content Creator in Advertising, Branding, Online Communication, and Visual Design"
+            ]
+          },
+          "information_website": "https://admissions.hkbu.edu.hk/en/programme-detail.html?id=216"
+        }
+      ]
+    },
+    {
+      "name": "College of International Education (CIE)",
+      "programmes": [
+        {
+          "code": "CIE-ACCG",
+          "title": "Higher Diploma in Accounting",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "This programme aims to equip students with the technical, analytical, and interpersonal skills necessary for a successful career in the accounting profession. Students will gain practical experience through internships and professional development activities, which will prepare them for further studies at the degree level or for direct entry into the workforce. The curriculum provides a solid foundation in business and accounting, with an emphasis on applying theoretical knowledge to real-world scenarios.",
+          "career_opportunities": "Career Prospects: Graduates are well-prepared for entry-level positions in professional accounting firms, commercial, industrial, and non-profit organizations, as well as government departments. Typical roles include audit trainee, accounting trainee, tax trainee, and officer in related fields.Study Pathways: Graduates of the programme are eligible to apply for admission to the Bachelor of Commerce (Hons) in Accountancy programme offered by the School of Business at Hong Kong Baptist University (HKBU). They may also apply for admission to other local or overseas degree programmes.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/higher_diploma_programme/bus/accg"
+        },
+        {
+          "code": "CIE-ATD",
+          "title": "Higher Diploma in Art and Technology Design",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "This programme aims to develop students’ creativity, aesthetic sense, critical thinking, and technical skills in art and technology design. It provides a comprehensive curriculum covering a wide range of topics, including digital imaging, 3D modeling and animation, interactive design, and user experience. The programme emphasizes both theoretical knowledge and practical application, preparing students for careers in the creative industries or for further studies in related fields.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in various creative fields, such as advertising, graphic design, animation, game design, multimedia production, and user interface/user experience (UI/UX) design.Study Pathways: Graduates are eligible to apply for admission to relevant bachelor's degree programmes at local universities, including those offered by the School of Creative Arts at HKBU. They can also apply to overseas universities for further studies in art, design, or related disciplines.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/higher_diploma_programme/com/atd"
+        },
+        {
+          "code": "CIE-TSHM",
+          "title": "Higher Diploma in Tourism and Hospitality Management",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "This programme is designed to equip students with the knowledge and skills required for a career in the dynamic tourism and hospitality industry. It covers a broad range of subjects, including hotel operations, tourism planning, event management, and marketing. Students will gain practical experience through internships and industry projects, which will enhance their employability and prepare them for future career advancement. The programme also provides a solid foundation for those who wish to pursue further studies in tourism and hospitality management.",
+          "career_opportunities": "Career Prospects: Graduates can find employment in hotels, resorts, travel agencies, airlines, cruise lines, theme parks, and event management companies. Potential job roles include hotel front office staff, guest relations officer, travel consultant, and event coordinator.Study Pathways: Graduates may articulate to senior-year places in the Bachelor of Business Administration (Hons) – Marketing Concentration at HKBU, or apply for admission to other relevant degree programmes at local or overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/higher_diploma_programme/bus/tshm"
+        },
+        {
+          "code": "CIE-FINT",
+          "title": "Associate in Business (Financial Technology)",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with a solid foundation in both finance and technology, covering areas such as programming, data analytics, blockchain, and artificial intelligence in finance. It aims to develop students' ability to apply technological solutions to financial problems, preparing them for the evolving demands of the FinTech industry. The curriculum is designed with input from industry practitioners to ensure its relevance and practicality.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in the FinTech sector, working in areas such as digital banking, virtual assets, and RegTech. Potential roles include FinTech business analyst, data analyst, and digital marketing specialist.Study Pathways: Graduates can articulate to senior-year places in business, finance, or information technology-related degree programmes at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/fint"
+        },
+        {
+          "code": "CIE-GRMG",
+          "title": "Associate in Geography and Resource Management",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme explores the intricate relationship between human activities and the environment. It covers a wide range of topics, including urban planning, environmental conservation, and sustainable development. Students will develop a deep understanding of geographical concepts and their application to real-world issues. The programme aims to nurture environmentally conscious and socially responsible citizens who can contribute to the sustainable management of our planet's resources.",
+          "career_opportunities": "Career Prospects: Graduates can find employment in government departments, environmental NGOs, and private corporations. They can work as assistant town planners, environmental officers, and sustainability consultants.Study Pathways: Graduates are eligible to apply for admission to bachelor's degree programmes in geography, environmental science, urban studies, and related fields at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/grmg"
+        },
+        {
+          "code": "CIE-HESC",
+          "title": "Associate in Health Science",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a broad-based education in health science, covering subjects such as human biology, public health, and healthcare ethics. It aims to equip students with the fundamental knowledge and skills required for a career in the healthcare sector or for further studies in health-related disciplines. The curriculum is designed to foster a holistic understanding of health and well-being, preparing students to address the complex health challenges of our time.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in various healthcare settings, including hospitals, clinics, and community health centers. Potential roles include health service administrator, public health officer, and medical research assistant.Study Pathways: Graduates can apply for admission to a wide range of health-related bachelor's degree programmes, such as nursing, public health, and biomedical sciences.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/hesc"
+        },
+        {
+          "code": "CIE-CPPS",
+          "title": "Associate in Communication and Public Relations",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed to equip students with the theoretical knowledge and practical skills for a career in communication and public relations. It covers a wide range of subjects, including media writing, strategic communication, and crisis management. Students will learn how to effectively communicate with different audiences and manage the reputation of organizations. The programme emphasizes hands-on experience, with opportunities for students to work on real-life PR campaigns and projects.",
+          "career_opportunities": "Career Prospects: Graduates can work in public relations agencies, corporate communication departments, and non-profit organizations. They can pursue careers as public relations officers, corporate communication executives, and event coordinators.Study Pathways: Graduates are eligible to apply for senior-year admission to bachelor's degree programmes in communication, public relations, and related fields at HKBU and other local universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/al/cpps"
+        },
+        {
+          "code": "CIE-LFSC",
+          "title": "Associate in Life Science",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a solid foundation in the life sciences, covering key areas such as cell biology, genetics, and ecology. It aims to develop students' scientific literacy and analytical skills, and prepare them for further studies or careers in the life science field. The curriculum combines theoretical learning with practical laboratory experience, allowing students to gain hands-on skills in scientific research.",
+          "career_opportunities": "Career Prospects: Graduates can work as laboratory technicians, research assistants, and quality control officers in various sectors, including biotechnology, pharmaceutical, and environmental industries.Study Pathways: Graduates can apply for admission to bachelor's degree programmes in biological sciences, biochemistry, environmental science, and other related fields.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/lfsc"
+        },
+        {
+          "code": "CIE-NUFM",
+          "title": "Associate in Nutrition and Food Management",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed for students who are interested in the science of nutrition and the management of food services. It covers a wide range of topics, including human nutrition, food chemistry, and food service operations. Students will gain the knowledge and skills to promote healthy eating and manage food services effectively. The programme aims to meet the growing demand for professionals in the nutrition and food industry.",
+          "career_opportunities": "Career Prospects: Graduates can work in various food and nutrition-related settings, such as hospitals, elderly homes, and food companies. They can pursue careers as nutrition assistants, food service supervisors, and quality assurance officers.Study Pathways: Graduates can articulate to bachelor's degree programmes in food and nutritional sciences, public health, or related disciplines.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/nufm"
+        },
+        {
+          "code": "CIE-ENCS",
+          "title": "Associate in Environmental Conservation Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme aims to provide students with a comprehensive understanding of environmental issues and the principles of conservation. It covers various topics, including ecology, environmental pollution, and sustainable development. Students will develop the skills to analyze environmental problems and formulate conservation strategies. The programme is designed to nurture a new generation of environmental professionals who are committed to protecting our planet.",
+          "career_opportunities": "Career Prospects: Graduates can work in government departments, green groups, and environmental consulting firms. They can pursue careers as conservation officers, environmental education officers, and sustainability assistants.Study Pathways: Graduates are eligible to apply for bachelor's degree programmes in environmental science, geography, and other related fields at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/encs"
+        },
+        {
+          "code": "CIE-TRMG",
+          "title": "Associate in Tourism and Recreation Management",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with a broad-based education in tourism and recreation management. It covers a wide range of subjects, including tourism planning, event management, and recreation programming. Students will gain the knowledge and skills to manage tourism and recreation businesses and organizations effectively. The programme aims to prepare students for the dynamic and growing tourism and recreation industry.",
+          "career_opportunities": "Career Prospects: Graduates can find employment in various sectors of the tourism and recreation industry, such as travel agencies, airlines, hotels, and theme parks. They can work as tour operators, event coordinators, and recreation club officers.Study Pathways: Graduates can articulate to senior-year places in bachelor's degree programmes in tourism, hospitality, or recreation management.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/as/trmg"
+        },
+        {
+          "code": "CIE-PENG",
+          "title": "Associate in English Language and Literature",
+          "admissions_type": "Associate Degree",
+          "programme_description": "The programme aims to develop students' proficiency in English and their critical appreciation of literature. Students will engage with a wide range of literary texts from different genres and historical periods, and will develop their skills in literary analysis, critical thinking, and academic writing. It provides a solid foundation for students who wish to pursue further studies in English, linguistics, or related fields.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in fields that require a high level of English proficiency and communication skills, such as education, publishing, media, and public relations.Study Pathways: Graduates are eligible to apply for admission to Bachelor of Arts programmes in English Language and Literature, Linguistics, or other related disciplines at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/al/peng"
+        },
+        {
+          "code": "CIE-VARS",
+          "title": "Associate in Visual Arts",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a comprehensive training in the theory and practice of visual arts. Students will develop their creative potential and technical skills through a variety of studio courses, including drawing, painting, sculpture, and digital media. It also fosters students' critical thinking and analytical skills through courses in art history and art appreciation. The programme aims to nurture a new generation of artists and creative talents for the vibrant arts and cultural scene in Hong Kong.",
+          "career_opportunities": "Career Prospects: Graduates can work as artists, designers, art administrators, and art educators. They can also find employment in galleries, museums, and other cultural institutions.Study Pathways: Graduates can apply for admission to Bachelor of Arts programmes in Visual Arts or related fields at HKBU and other local or overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/al/vars"
+        },
+        {
+          "code": "CIE-CULS",
+          "title": "Associate in Cultural Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme introduces students to the interdisciplinary field of cultural studies, exploring how culture shapes our identities, values, and social relations. Students will learn to critically analyze a wide range of cultural phenomena, from popular music and film to social media and urban spaces. It aims to develop students' critical thinking, analytical, and communication skills, and to foster a deeper understanding of the cultural dynamics of contemporary societies.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in media, cultural policy, arts administration, and education. The analytical and communication skills gained from the programme are highly valued in a wide range of professions.Study Pathways: Graduates can articulate to Bachelor of Arts programmes in Cultural Studies, Sociology, Communication, and other related humanities and social sciences disciplines.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/al/culs"
+        },
+        {
+          "code": "CIE-MUSC",
+          "title": "Associate in Music Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a comprehensive education in music, covering performance, music theory, and music history. It is designed for students who are passionate about music and wish to pursue a career in the music field. Students will have ample opportunities to perform in ensembles and recitals, and to develop their musicianship under the guidance of experienced faculty. The programme aims to nurture versatile musicians who can contribute to the local music scene.",
+          "career_opportunities": "Career Prospects: Graduates can work as music teachers, performers, and arts administrators. They can also pursue careers in the music recording and publishing industries.Study Pathways: Graduates are eligible to apply for admission to Bachelor of Arts programmes in Music at HKBU and other local or overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/al/musc"
+        },
+        {
+          "code": "CIE-MRTG",
+          "title": "Associate in Business (Marketing)",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme aims to provide students with a solid foundation in marketing principles and practices. It covers a wide range of topics, including consumer behavior, marketing research, digital marketing, and strategic marketing. Students will develop the skills to analyze market trends, formulate marketing strategies, and execute marketing campaigns. The programme prepares students for a career in the dynamic field of marketing and for further studies in business.",
+          "career_opportunities": "Career Prospects: Graduates can work as marketing assistants, digital marketing coordinators, and customer relationship officers in various industries. With experience, they can advance to managerial positions in marketing and sales.Study Pathways: Graduates can apply for senior-year admission to Bachelor of Business Administration programmes, particularly with a concentration in Marketing, at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/bus/mrtg"
+        },
+        {
+          "code": "CIE-ACTY",
+          "title": "Associate in Business (Accounting)",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed to provide students with a strong foundation in accounting theory and practice. The curriculum covers key areas such as financial accounting, management accounting, taxation, and auditing. It aims to develop students' analytical and problem-solving skills, and prepare them for professional accounting examinations and a career in the accounting profession. Students will be equipped with the necessary knowledge and skills for further study or for entry-level positions in the field.",
+          "career_opportunities": "Career Prospects: Graduates are well-prepared for entry-level positions in professional accounting firms, commercial and industrial sectors, and government departments. Typical roles include audit trainee, accounting assistant, and tax assistant.Study Pathways: Graduates can apply for admission to Bachelor's degree programmes in Accountancy or related business disciplines. They may also be granted exemptions from certain papers of professional accounting examinations.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/bus/acty"
+        },
+        {
+          "code": "CIE-BUAD",
+          "title": "Associate in Business Administration",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a broad-based business education, covering a wide range of subjects including management, marketing, accounting, and finance. It is designed to equip students with the essential knowledge and skills to succeed in the business world. The programme emphasizes the development of students' analytical, communication, and interpersonal skills. It serves as a solid foundation for students who wish to pursue a bachelor's degree in business or to enter the workforce after graduation.",
+          "career_opportunities": "Career Prospects: Graduates can pursue a wide range of business-related careers in areas such as administration, human resources, marketing, and customer service. The programme provides a versatile qualification that is applicable to various industries.Study Pathways: Graduates can apply for admission to a wide range of Bachelor of Business Administration (BBA) programmes at local and overseas universities, and may be granted credit exemption.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/bus/buad"
+        },
+        {
+          "code": "CIE-FMGT",
+          "title": "Associate in Business (Financial Management)",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with a solid understanding of financial principles and practices. The curriculum covers key areas such as corporate finance, investment, risk management, and financial planning. It aims to develop students' analytical skills in financial decision-making and prepare them for a career in the finance industry. Students will learn to analyze financial information, evaluate investment opportunities, and manage financial resources effectively.",
+          "career_opportunities": "Career Prospects: Graduates are prepared for entry-level positions in banks, investment firms, insurance companies, and other financial institutions. Potential job roles include financial planning assistant, investment assistant, and credit analyst.Study Pathways: Graduates are eligible to apply for senior-year admission to Bachelor's degree programmes in Finance, Business Administration, or related fields at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/bus/fmgt"
+        },
+        {
+          "code": "CIE-CDMD",
+          "title": "Associate in Creative Digital Media Design",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme focuses on the integration of creativity and technology in digital media design. It covers a wide range of subjects including graphic design, animation, interactive media, and user experience design. Students will develop both the aesthetic sense and technical skills to create engaging and innovative digital content for various platforms. The programme aims to nurture creative talents who can contribute to the rapidly growing digital media industry.",
+          "career_opportunities": "Career Prospects: Graduates can work as multimedia designers, graphic designers, UI/UX designers, and animators in advertising agencies, design houses, and tech companies.Study Pathways: Graduates can apply for admission to Bachelor's degree programmes in creative media, communication, design, or related fields.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/com/cdmd"
+        },
+        {
+          "code": "CIE-CRMW",
+          "title": "Associate in Creative Writing for Film, TV and New Media",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed to nurture aspiring writers for the screen. It provides intensive training in screenwriting, storytelling, and script analysis for various media platforms, including film, television, and online content. Students will learn the art of crafting compelling narratives and creating memorable characters. The programme aims to equip students with the creative and professional skills to succeed in the competitive media industry.",
+          "career_opportunities": "Career Prospects: Graduates can work as screenwriters, script editors, and content creators for film production companies, TV stations, and new media platforms.Study Pathways: Graduates are eligible to apply for admission to Bachelor's degree programmes in creative writing, film and television, communication, or related disciplines.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/com/crmw"
+        },
+        {
+          "code": "CIE-THMG",
+          "title": "Associate in Tourism and Hospitality Management",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with a broad-based education in tourism and hospitality management. It covers a wide range of subjects, including hotel operations, tourism planning, and event management. Students will gain the knowledge and skills to manage tourism and hospitality businesses effectively. The programme aims to prepare students for the dynamic and growing tourism and hospitality industry.",
+          "career_opportunities": "Career Prospects: Graduates can find employment in various sectors of the tourism and hospitality industry, such as hotels, travel agencies, airlines, and event management companies.Study Pathways: Graduates can articulate to senior-year places in Bachelor's degree programmes in tourism, hospitality, or recreation management at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/bus/tsmg"
+        },
+        {
+          "code": "CIE-CRCM",
+          "title": "Associate in Creative Communication",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme aims to nurture creative and effective communicators. It covers a wide range of topics in communication, including advertising, public relations, and digital media. Students will learn to develop creative ideas and produce compelling content for various communication channels. The programme emphasizes both creative thinking and practical skills, preparing students for a career in the creative communication industry.",
+          "career_opportunities": "Career Prospects: Graduates can work as copywriters, creative assistants, and social media executives in advertising agencies, PR firms, and marketing departments.Study Pathways: Graduates can apply for admission to Bachelor's degree programmes in communication, advertising, public relations, or related fields.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/com/crcm"
+        },
+        {
+          "code": "CIE-MECM",
+          "title": "Associate in Media Communication",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a comprehensive introduction to the field of media communication. It covers the history, theory, and practice of various media, including print, broadcast, and online media. Students will develop a critical understanding of the role of media in society and will learn the skills to produce and analyze media content. The programme aims to prepare students for the fast-changing media landscape.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in journalism, broadcasting, publishing, and digital media. Potential job roles include reporter, programme assistant, and social media editor.Study Pathways: Graduates are eligible to apply for senior-year admission to Bachelor's degree programmes in communication, journalism, or related fields at HKBU and other local universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/com/mecm"
+        },
+        {
+          "code": "CIE-APSS",
+          "title": "Associate in Applied Social Service",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed for students who are committed to serving the community. It provides a solid foundation in social service theories and practices, covering areas such as social welfare, community development, and counseling skills. Students will have opportunities to gain practical experience through fieldwork placements in social service organizations. The programme aims to nurture caring and competent social service practitioners.",
+          "career_opportunities": "Career Prospects: Graduates can work as social work assistants, programme workers, and community organizers in NGOs, community centers, and elderly homes.Study Pathways: Graduates can apply for admission to Bachelor's degree programmes in social work, social policy, or other social sciences disciplines.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/apss"
+        },
+        {
+          "code": "CIE-FTDM",
+          "title": "Associate in Film, Television and Digital Media Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with a comprehensive understanding of the film, television, and digital media industries. It covers the history, theory, and criticism of these media, as well as the practical aspects of production. Students will develop the analytical and creative skills to appreciate and create media content. The programme aims to prepare students for the dynamic and ever-evolving media landscape.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in film and television production, media planning, and arts administration. They can work in production houses, TV stations, and cultural organizations.Study Pathways: Graduates are eligible to apply for admission to Bachelor's degree programmes in film and television, communication, or creative media.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/com/ftdm"
+        },
+        {
+          "code": "CIE-JORM",
+          "title": "Associate in Journalism",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides fundamental training in journalism, covering news writing, reporting, and media ethics. Students will learn the skills to gather, analyze, and present information accurately and effectively. The programme emphasizes the importance of journalistic integrity and the role of journalism in a democratic society. It aims to prepare students for a career in the news industry or for further studies in journalism and communication.",
+          "career_opportunities": "Career Prospects: Graduates can work as reporters, researchers, and editors in newspapers, magazines, and online news outlets.Study Pathways: Graduates are eligible for senior-year admission to the Bachelor of Communication (Hons) - Journalism and Digital Media stream at HKBU, or other related degree programmes at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/com/jorm"
+        },
+        {
+          "code": "CIE-SOWS",
+          "title": "Associate in Social Work",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with fundamental knowledge and skills in social work. It covers theories of social work, social welfare policies, and practical intervention skills. Students will have the opportunity to apply their learning in real-world settings through fieldwork placements. The programme is designed for students who are passionate about helping people and contributing to society. It prepares students for a career in social work or for further studies in the field.",
+          "career_opportunities": "Career Prospects: Graduates are eligible to register as Registered Social Workers (RSW) in Hong Kong. They can work as social work assistants in various social service settings, including NGOs, schools, and hospitals.Study Pathways: Graduates can apply for admission to Bachelor of Social Work (BSW) programmes at local universities. They may be granted credit exemption, allowing them to complete their degree in a shorter period of time.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/sows"
+        },
+        {
+          "code": "CIE-HHKS",
+          "title": "Associate in History and Hong Kong Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme offers a unique opportunity for students to explore the history of Hong Kong in the context of Chinese and world history. It covers a wide range of topics, from the city's colonial past to its post-handover development. Students will develop a deep understanding of the historical forces that have shaped Hong Kong's identity and its role in the global arena. The programme aims to cultivate students' historical thinking and research skills.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in education, heritage conservation, museum management, and cultural tourism. The programme also provides a solid foundation for careers in journalism, publishing, and civil service.Study Pathways: Graduates can apply for admission to Bachelor of Arts programmes in History, Chinese History, or Hong Kong Studies at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/hhks"
+        },
+        {
+          "code": "CIE-PPHI",
+          "title": "Associate in Philosophy",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a rigorous training in philosophical inquiry, covering major areas such as ethics, metaphysics, and epistemology. Students will learn to think critically, construct logical arguments, and engage with profound questions about life and the universe. The programme aims to develop students' analytical and reasoning skills, which are highly transferable to a wide range of professions.",
+          "career_opportunities": "Career Prospects: The critical thinking and communication skills gained from studying philosophy are highly valued by employers in various sectors, including law, business, and education. Graduates can pursue careers in administration, management, and policy analysis.Study Pathways: Graduates can articulate to Bachelor of Arts programmes in Philosophy or other humanities and social sciences disciplines at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/pphi"
+        },
+        {
+          "code": "CIE-SPRS",
+          "title": "Associate in Sport and Recreation Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed for students who are passionate about sports and recreation. It provides a broad-based education in the field, covering areas such as sport management, recreation programming, and health and wellness. Students will gain the knowledge and skills to plan, organize, and manage sport and recreation activities. The programme aims to prepare students for a career in the growing sport and recreation industry.",
+          "career_opportunities": "Career Prospects: Graduates can work in various sport and recreation settings, such as sports clubs, fitness centers, and community recreation centers. They can pursue careers as recreation officers, event coordinators, and sports administrators.Study Pathways: Graduates can apply for admission to Bachelor's degree programmes in physical education, recreation management, or sports science.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/sprs"
+        },
+        {
+          "code": "CIE-SODS",
+          "title": "Associate in Sociology",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides students with a sociological perspective to understand the complexities of modern societies. It covers a wide range of topics, including social inequality, globalization, and urban life. Students will learn to use sociological theories and research methods to analyze social issues and phenomena. The programme aims to develop students' critical thinking and social awareness, and to prepare them for a variety of careers in the public and private sectors.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in social research, community development, and public administration. The analytical and communication skills gained from the programme are also highly relevant to careers in marketing, human resources, and media.Study Pathways: Graduates can articulate to Bachelor of Social Sciences programmes in Sociology or other related disciplines at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/sods"
+        },
+        {
+          "code": "CIE-SPPS",
+          "title": "Associate in Social and Public Policy Studies",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme is designed to equip students with the knowledge and skills to analyze and address public issues. It covers a wide range of topics in public policy, including social welfare, housing, and environmental policy. Students will learn about the policy-making process and the role of different stakeholders in shaping public policy. The programme aims to nurture future leaders who can contribute to the betterment of society.",
+          "career_opportunities": "Career Prospects: Graduates can work in government departments, political parties, think tanks, and non-profit organizations. They can pursue careers as policy researchers, public affairs officers, and community organizers.Study Pathways: Graduates can apply for admission to Bachelor's degree programmes in public administration, social policy, or political science.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/spps"
+        },
+        {
+          "code": "CIE-PSYG",
+          "title": "Associate in Psychology",
+          "admissions_type": "Associate Degree",
+          "programme_description": "This programme provides a solid foundation in the science of psychology, covering major areas such as cognitive psychology, social psychology, and developmental psychology. Students will learn about the key theories and research findings in the field, and will be introduced to the research methods used by psychologists. The programme aims to develop students' understanding of human behavior and mental processes, and to prepare them for further studies in psychology or related disciplines.",
+          "career_opportunities": "Career Prospects: While a professional career as a psychologist requires postgraduate training, an associate degree in psychology provides a good foundation for careers in human resources, marketing, and social services, where an understanding of human behavior is an asset.Study Pathways: Graduates can apply for admission to Bachelor of Social Sciences programmes in Psychology at local and overseas universities.",
+          "information_website": "https://www.cie.hkbu.edu.hk/main/en/programmes/associate_degree_programme/ss/psyg"
+        }
+      ]
+    },
+    {
+      "name": "Academy of Film (AF)",
+      "programmes": [
+        {
+          "code": "AF-CFP",
+          "title": "Higher Diploma in Creative Film Production",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "The Higher Diploma in Creative Film Production is a two-year full-time programme that provides comprehensive, industry-oriented training for students who aspire to work in the film, television, and creative media industries. The curriculum focuses on hands-on practice, covering all aspects of filmmaking from screenwriting and directing to cinematography, sound, and post-production. With state-of-the-art facilities and a faculty of experienced industry professionals, the programme aims to nurture a new generation of creative and technically proficient filmmakers.",
+          "career_opportunities": "Career Prospects: Graduates are equipped for a wide range of entry-level positions in the film and television industry, including roles in production, camera and lighting, art direction, and post-production. They can work in film crews, TV stations, advertising production houses, and other creative media companies.Study Pathways: Graduates are eligible to apply for admission to the Bachelor of Fine Arts (Hons) in Film and Television programme offered by the Academy of Film at HKBU, and may be granted credit exemption. They can also pursue further studies in related fields at other local or overseas institutions.",
+          "information_website": "https://af.hkbu.edu.hk/en/hd-introduction"
+        }
+      ]
+    },
+    {
+      "name": "School of Continuing Education (SCE)",
+      "programmes": [
+        {
+          "code": "SCE-CD",
+          "title": "Higher Diploma in Commercial Design (Jewellery Design and Visual Merchandising)",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "The programme aims to cultivate creative and skilled professionals for the commercial design industry, with a focus on jewellery design and visual merchandising. Students will learn the entire design process, from concept development to production, and will acquire technical skills in areas such as 3D rendering, brand promotion, and exhibition design. The curriculum is designed to be practical and industry-relevant, with opportunities for students to work on real-life projects and build a professional portfolio.",
+          "career_opportunities": "Career Prospects: Graduates can work as jewellery designers, visual merchandisers, exhibition designers, and brand promoters. They can find employment in design studios, retail companies, and advertising agencies.Study Pathways: Graduates can apply for admission to relevant degree programmes in design, such as those offered by the School of Creative Arts at HKBU, or pursue further studies at overseas institutions.",
+          "information_website": "https://www.sce.hkbu.edu.hk/en/programme/higher-diploma-commercial-design-jewellery-design-visual-merchandising/"
+        },
+        {
+          "code": "SCE-DS",
+          "title": "Higher Diploma in Data Science",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "This programme aims to equip students with the knowledge and skills to become data science professionals. It covers the core areas of data science, including programming, statistics, data mining, and machine learning. Students will learn how to use various tools and techniques to analyze large datasets and extract valuable insights. The programme emphasizes practical applications and hands-on experience, preparing students for the challenges and opportunities in the big data era.",
+          "career_opportunities": "Career Prospects: Graduates can work as data analysts, business intelligence analysts, and data engineers in various industries, such as finance, marketing, and technology. The demand for data science professionals is high and expected to grow in the coming years.Study Pathways: Graduates are eligible to apply for admission to bachelor's degree programmes in computer science, data science, or related fields at local and overseas universities.",
+          "information_website": "https://www.sce.hkbu.edu.hk/en/programme/higher-diploma-in-data-science/"
+        },
+        {
+          "code": "SCE-ECE",
+          "title": "Higher Diploma in Early Childhood Education",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "This programme is designed to prepare students for a professional career in early childhood education. It provides a comprehensive curriculum that covers child development, curriculum planning, teaching methodologies, and special educational needs. Students will gain practical experience through practicum placements in kindergartens and childcare centres. The programme is recognized by the Education Bureau and the Social Welfare Department, and graduates are eligible to register as Qualified Kindergarten Teachers and Child Care Workers.",
+          "career_opportunities": "Career Prospects: Graduates can work as kindergarten teachers, child care workers, and special educational needs coordinators in various early childhood education settings.Study Pathways: Graduates can articulate to the Bachelor of Education (Hons) in Early Childhood Education programme at HKBU or other relevant degree programmes at local and overseas universities.",
+          "information_website": "https://www.sce.hkbu.edu.hk/en/programme/higher-diploma-in-early-childhood-education/"
+        },
+        {
+          "code": "SCE-MGMT",
+          "title": "Higher Diploma in Management",
+          "admissions_type": "Higher Diploma",
+          "programme_description": "The programme provides students with a solid foundation in management theories and practices. It covers a wide range of subjects, including organizational behavior, human resource management, marketing, and strategic management. The curriculum is designed to be practical and career-oriented, with a focus on developing students' leadership, communication, and problem-solving skills. The programme aims to prepare students for supervisory and managerial roles in various business sectors.",
+          "career_opportunities": "Career Prospects: Graduates can pursue careers in various fields, such as administration, human resources, marketing, and operations management. They are well-equipped for entry-level management positions in both the public and private sectors.Study Pathways: Graduates may apply for admission to the Bachelor of Business Administration (BBA) or other related degree programmes at local and overseas universities. They may be granted credit exemptions based on their academic performance.",
+          "information_website": "https://www.sce.hkbu.edu.hk/en/programme/higher-diploma-in-management/"
+        }
+      ]
+    }
+  ],
+  "general_notes": {
+    "score_calculation": {
+      "method": "Best 5 HKDSE subjects for 2025 entry",
+      "formula": "Total Score = Sum of (Subject Score × Weight) for the top 5 subjects",
+      "subject_score_mapping": {
+        "5**": 7,
+        "5*": 6,
+        "5": 5,
+        "4": 4,
+        "3": 3,
+        "2": 2,
+        "1": 1
+      },
+      "note": "Citizenship and Social Development (Attained) is required but not included in score calculation unless specified"
+    },
+    "category_b_c": "Refer to Admissions Office website for minimum requirements and score conversion",
+    "hmsc": "Health Management and Social Care",
+    "js2960_note": "Subject to University approval"
+  }
+}
