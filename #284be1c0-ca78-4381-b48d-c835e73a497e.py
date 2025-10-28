@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 # --- Database and API Configuration ---
 DB_FILE = 'hkbu_admissions.db'
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "7cad0daa-7d09-4e4a-9f4c-d70a159c32ea" #API Key
+apiKey = "1b57552d-3a75-4212-91a6-060970766e78" #API Key
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -268,4 +268,5 @@ def main():
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 if __name__ == "__main__":
+
     main()
