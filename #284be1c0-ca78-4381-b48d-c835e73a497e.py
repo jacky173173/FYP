@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 # --- Database and API Configuration ---
 DB_FILE = 'hkbu_admissions.db'
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "1b57552d-3a75-4212-91a6-060970766e78" #API Key
+apiKey = "7cad0daa-7d09-4e4a-9f4c-d70a159c32ea" #API Key
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -240,13 +240,57 @@ def main():
     st.title("🎓 HKBU Admissions Chatbot")
     st.caption("A HKBU course chatbot")
 
+    # --- 1. 初始化設定的 session_state ---
+    if "text_size" not in st.session_state:
+        st.session_state.text_size = "Medium"
+    if "text_align" not in st.session_state:
+        st.session_state.text_align = "Left"
+
+    # --- 2. 建立設定選單 ---
+    with st.expander("⚙️ 顯示設定 (Display Settings)"):
+        
+        st.radio(
+            "文字大小 (Text Size)",
+            ["Small", "Medium", "Large"],
+            key="text_size",
+            horizontal=True,
+        )
+        
+        st.radio(
+            "聊天框 *文字* 對齊 (Text Alignment)",
+            ["Left", "Center", "Right"],
+            key="text_align",
+            horizontal=True,
+        )
+    # --- 3. 根據設定產生並應用 CSS ---
+    
+    # 文字大小和對齊的 CSS
+    size_map = {"Small": "0.9rem", "Medium": "1rem", "Large": "1.2rem"}
+    text_align_map = {"Left": "left", "Center": "center", "Right": "right"}
+    current_font_size = size_map[st.session_state.text_size]
+    current_text_align = text_align_map[st.session_state.text_align]
+
+
+    # --- 注入 CSS ---
+    # 現在只包含文字大小和文字對齊的 CSS
+    st.markdown(f"""
+    <style>
+        /* 控制文字在框內的對齊和大小 */
+        .stChatMessage p, .stChatMessage li {{
+            font-size: {current_font_size} !important;
+            text-align: {current_text_align} !important;
+        }}
+    </style>
+    """, unsafe_allow_html=True)
+
+
+    # --- 4. 你的原始聊天機器人程式碼 ---
+    
     chatbot_data = initialize_chatbot()
 
     if not chatbot_data:
         st.error("Chatbot Initialization failed")
         st.stop()
-    
-    # Sidebar code has been removed
     
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -268,5 +312,4 @@ def main():
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 if __name__ == "__main__":
-
     main()
