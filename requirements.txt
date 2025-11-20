@@ -5,3 +5,7 @@ langchain-core
 langchain-huggingface
 sentence-transformers
 faiss-cpu
+duckduckgo-search
+beautifulsoup4
+pymongo
+dnspython
