@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 # --- Database and API Configuration ---
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "21ca5562-72b4-4014-a58a-e06f47ef2c11" 
+apiKey = "c9af631a-f4e2-47ff-9bc2-2f5f2348d17c" 
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -418,4 +418,5 @@ def main():
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 if __name__ == "__main__":
+
     main()
