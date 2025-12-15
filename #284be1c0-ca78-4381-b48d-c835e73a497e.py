@@ -57,35 +57,35 @@ def find_program_url(code: str, data: Dict) -> str:
 
 def perform_web_search(query: str, programme_code: str, programme_data: Dict) -> str:
     """
-    Uses DuckDuckGo API directly (DDGS) to find information.
-    Does NOT use BeautifulSoup/Scraping.
-    Handles DNS/Connection errors gracefully.
+    Uses DuckDuckGo API to find specific curriculum details.
+    Strategy: Targeted keywords to bypass generic landing pages.
     """
+    # 1. 基本清理
     clean_query = query.replace(programme_code, "").strip()
     faculty_name = get_faculty_name(programme_code, programme_data)
     
     search_queries = []
     
+    # --- 策略：針對 CIE 課程的特殊搜尋優化 ---
+    # 如果問題包含 'unit', 'credit', 'curriculum', 'course'，我們強制搜 "Study Schedule"
+    # 因為 CIE 的資料通常在 "Study Schedule" 的 PDF 或頁面中
+    if any(k in clean_query.lower() for k in ['unit', 'credit', 'curriculum', 'course', 'structure', 'requirement']):
+        search_queries.append(f"HKBU {programme_code} curriculum structure study schedule")
+        search_queries.append(f"HKBU {programme_code} graduation requirement units")
     
+    # 2. 原本的搜尋策略 (保底)
     if faculty_name:
-        search_queries.append(f"HKBU {faculty_name} {clean_query}")
-    
+        search_queries.append(f"HKBU {faculty_name} {programme_code} {clean_query}")
     
     search_queries.append(f"HKBU {programme_code} {clean_query}")
 
-    
-    search_queries.append(f"HKBU {programme_code} course information")
-
     combined_results = ""
-    
-    # DDGS Object
     ddgs = DDGS()
 
     for q in search_queries:
         logger.info(f"Asking Search API to find: {q}")
         try:
-            # max_results=5: 
-            # backend="api": 
+            # 增加結果數量到 5，並優先找 PDF (通常包含詳細資料)
             results = ddgs.text(q, max_results=5, backend="api")
             
             if results:
@@ -95,9 +95,11 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
                     link = res.get('href', 'No Link')
                     body = res.get('body', '')
                     
-                    combined_results += f"Title: {title}\nLink: {link}\nSnippet: {body}\n\n"
+                    # 這一步很重要：讓 AI 知道這是搜尋結果的摘要
+                    combined_results += f"Source: {title}\nLink: {link}\nSnippet: {body}\n\n"
                 
-                if len(combined_results) > 1500:
+                # 避免 Context 過長
+                if len(combined_results) > 2000:
                     break
                     
         except Exception as e:
@@ -106,16 +108,6 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
             continue
 
     return combined_results
-
-def extract_code_and_query(query: str, data: Dict) -> Tuple[str | None, str]:
-    query_upper = query.upper()
-    code_match = re.search(r'(JS\d{4}|[A-Z]{2,4}-[A-Z]{2,4})', query_upper)
-    if code_match:
-        code = code_match.group(0)
-        if any(prog.get("code", "").upper() == code for fac in data.get("faculties", []) for prog in fac.get("programmes", [])):
-            logger.info(f"Found and verified code '{code}' in query.")
-            return code, query
-    return None, query
 
 # --- MongoDB Backend Logic ---
 
@@ -420,5 +412,6 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
