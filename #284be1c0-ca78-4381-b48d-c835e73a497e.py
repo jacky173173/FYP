@@ -6,6 +6,9 @@ import re
 import os
 import time
 import urllib3
+import io 
+from bs4 import BeautifulSoup  # 確保有匯入這個
+from pypdf import PdfReader 
 from pymongo import MongoClient
 from duckduckgo_search import DDGS
 from langchain_community.vectorstores import FAISS
@@ -14,7 +17,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from typing import Dict, Any, Tuple
 
-# SSL 
+# SSL 設定
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Configuration
@@ -34,7 +37,6 @@ modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
 
 # --- MongoDB Configuration ---
-# MongoDB Atlas 
 MONGO_URI = "mongodb+srv://jacky173173_db_user:173173173@cluster0.7rbkruk.mongodb.net/?retryWrites=true&w=majority"
 DB_NAME = "hkbu_admissions"
 
@@ -55,52 +57,125 @@ def find_program_url(code: str, data: Dict) -> str:
                 return programme.get("information_website", "")
     return ""
 
+def scrape_website_content(url: str) -> str:
+    """
+    Fetches text from URL. Supports HTML and PDF.
+    """
+    if not url or not url.startswith('http'):
+        return ""
+    
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        }
+        # verify=False 忽略 SSL 錯誤，避免學校網站擋截
+        response = requests.get(url, headers=headers, timeout=10, verify=False) 
+        response.raise_for_status()
+        
+        content_type = response.headers.get('Content-Type', '').lower()
+        
+        # --- 針對 PDF 的處理邏輯 ---
+        if 'application/pdf' in content_type or url.endswith('.pdf'):
+            try:
+                with io.BytesIO(response.content) as f:
+                    reader = PdfReader(f)
+                    text = ""
+                    # 讀前 5 頁，避免太長
+                    for page in reader.pages[:5]:
+                        text += page.extract_text() + "\n"
+                    return text[:8000] # PDF 字數限制
+            except Exception as pdf_err:
+                logger.warning(f"PDF parsing failed: {pdf_err}")
+                return ""
+        # ---------------------------
+
+        # --- HTML 處理邏輯 (BeautifulSoup) ---
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        for script in soup(["script", "style", "nav", "footer", "header", "aside", "noscript"]):
+            script.extract()
+            
+        text = soup.get_text(separator=' ', strip=True)
+        return text[:8000] # HTML 字數限制
+        
+    except Exception as e:
+        logger.warning(f"Failed to scrape {url}: {e}")
+        return ""
+
 def perform_web_search(query: str, programme_code: str, programme_data: Dict) -> str:
     """
-    Uses DuckDuckGo API to find specific curriculum details.
-    Strategy: Targeted keywords to bypass generic landing pages.
+    Uses DuckDuckGo API.
+    COMBINES content from top results.
+    Includes DOMAIN FILTERING to avoid Zhihu/Social Media.
     """
-    # 1. 基本清理
     clean_query = query.replace(programme_code, "").strip()
     faculty_name = get_faculty_name(programme_code, programme_data)
     
     search_queries = []
     
-    # --- 策略：針對 CIE 課程的特殊搜尋優化 ---
-    # 如果問題包含 'unit', 'credit', 'curriculum', 'course'，我們強制搜 "Study Schedule"
-    # 因為 CIE 的資料通常在 "Study Schedule" 的 PDF 或頁面中
-    if any(k in clean_query.lower() for k in ['unit', 'credit', 'curriculum', 'course', 'structure', 'requirement']):
-        search_queries.append(f"HKBU {programme_code} curriculum structure study schedule")
-        search_queries.append(f"HKBU {programme_code} graduation requirement units")
+    # 針對課程結構/學分的特殊搜尋
+    if any(k in clean_query.lower() for k in ['unit', 'credit', 'curriculum', 'course', 'structure']):
+        search_queries.append(f"HKBU {programme_code} study schedule filetype:pdf") 
+        search_queries.append(f"HKBU {programme_code} curriculum structure")
     
-    # 2. 原本的搜尋策略 (保底)
+    # 針對找人/顧問的特殊搜尋
+    if any(k in clean_query.lower() for k in ['who', 'advisor', 'professor', 'staff', 'list']):
+        search_queries.append(f"List the academic advisors for {programme_code} {faculty_name}")
+    
+    # 針對獎學金的特殊搜尋
+    if "scholarship" in clean_query.lower():
+        search_queries.append(f"HKBU {faculty_name} entrance scholarship details")
+
+    # 一般搜尋
     if faculty_name:
         search_queries.append(f"HKBU {faculty_name} {programme_code} {clean_query}")
     
     search_queries.append(f"HKBU {programme_code} {clean_query}")
 
+    # 黑名單過濾
+    blocked_domains = [
+        "zhihu.com", "facebook.com", "instagram.com", "twitter.com", 
+        "linkedin.com", "youtube.com", "pinterest.com", "discuss.com.hk"
+    ]
+
     combined_results = ""
     ddgs = DDGS()
-
+    
     for q in search_queries:
         logger.info(f"Asking Search API to find: {q}")
         try:
-            # 增加結果數量到 5，並優先找 PDF (通常包含詳細資料)
-            results = ddgs.text(q, max_results=5, backend="api")
+            # backend="lite" 對於檔案和學術搜尋通常較穩定
+            results = ddgs.text(q, max_results=6, backend="lite")
             
             if results:
-                combined_results += f"\n\n--- Search Results for '{q}' ---\n"
-                for res in results:
-                    title = res.get('title', 'No Title')
-                    link = res.get('href', 'No Link')
-                    body = res.get('body', '')
-                    
-                    # 這一步很重要：讓 AI 知道這是搜尋結果的摘要
-                    combined_results += f"Source: {title}\nLink: {link}\nSnippet: {body}\n\n"
+                combined_results += f"\n\n=== Search Context for '{q}' ===\n"
                 
-                # 避免 Context 過長
-                if len(combined_results) > 2000:
-                    break
+                scraped_count = 0
+                
+                for res in results:
+                    if scraped_count >= 2: # 每個關鍵字最多爬 2 個網頁
+                        break
+                        
+                    link = res.get('href', '')
+                    title = res.get('title', '')
+                    
+                    if not link: continue
+
+                    # 檢查是否為黑名單網域
+                    if any(blocked in link for blocked in blocked_domains):
+                        logger.info(f"Skipping blocked domain: {link}")
+                        continue
+                    
+                    logger.info(f"Deep scraping: {link}")
+                    full_content = scrape_website_content(link)
+                    
+                    if full_content and len(full_content) > 100:
+                        combined_results += f"\n--- Source: {title} ({link}) ---\n"
+                        combined_results += f"{full_content}\n"
+                        scraped_count += 1
+                
+                if len(combined_results) > 500: 
+                    return combined_results
                     
         except Exception as e:
             logger.warning(f"Search API error for '{q}': {e}")
@@ -109,44 +184,43 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
 
     return combined_results
 
+def extract_code_and_query(query: str, data: Dict) -> Tuple[str | None, str]:
+    query_upper = query.upper()
+    code_match = re.search(r'(JS\d{4}|[A-Z]{2,4}-[A-Z]{2,4})', query_upper)
+    if code_match:
+        code = code_match.group(0)
+        if any(prog.get("code", "").upper() == code for fac in data.get("faculties", []) for prog in fac.get("programmes", [])):
+            logger.info(f"Found and verified code '{code}' in query.")
+            return code, query
+    return None, query
+
 # --- MongoDB Backend Logic ---
 
 def get_mongo_client():
-    """ MongoDB connect"""
     try:
         client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
-        # test
-        client.server_info()
+        client.server_info() 
         return client
     except Exception as e:
         logger.critical(f"Cannot connect to MongoDB: {e}")
         return None
 
 def setup_database(json_file: str):
-    """
-     JSON to MongoDB。
-    """
     logger.info(f"Setting up MongoDB from '{json_file}'...")
-    
     client = get_mongo_client()
     if not client:
         raise ConnectionError("MongoDB connection failed.")
-        
     db = client[DB_NAME]
-    
     try:
         with open(json_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-
-        # 1. Programmes Collection
-        col_programmes = db["programmes"]
         
+        col_programmes = db["programmes"]
         col_programmes.delete_many({})
         
         programmes_to_insert = []
         for faculty in data.get("faculties", []):
             for programme in faculty.get("programmes", []):
-                
                 programme['faculty_name'] = faculty.get("name")
                 programmes_to_insert.append(programme)
         
@@ -154,7 +228,6 @@ def setup_database(json_file: str):
             col_programmes.insert_many(programmes_to_insert)
             logger.info(f"Inserted {len(programmes_to_insert)} programmes into MongoDB.")
 
-        # 2. General Info Collection
         col_general = db["general_info"]
         col_general.delete_many({})
         if "general_notes" in data:
@@ -168,27 +241,19 @@ def setup_database(json_file: str):
 
 def load_data_from_db():
     logger.info(f"Loading data from MongoDB: {DB_NAME}")
-    
     client = get_mongo_client()
     if not client:
         raise ConnectionError("MongoDB connection failed.")
-    
     db = client[DB_NAME]
-    
     try:
-        
         cursor = db["programmes"].find({}, {"_id": 0})
-        
         faculties = {}
         for prog in cursor:
             faculty_name = prog.pop("faculty_name", "Unknown Faculty")
-            
             if faculty_name not in faculties:
                 faculties[faculty_name] = {"name": faculty_name, "programmes": []}
-            
             faculties[faculty_name]["programmes"].append(prog)
 
-        # General Notes
         general_note_doc = db["general_info"].find_one({"key": "general_notes"}, {"_id": 0})
         general_notes = general_note_doc.get("value", {}) if general_note_doc else {}
 
@@ -196,10 +261,8 @@ def load_data_from_db():
             "faculties": list(faculties.values()),
             "general_notes": general_notes
         }
-        
         logger.info("Successfully loaded data from MongoDB.")
         return reconstructed_data
-
     finally:
         client.close()
 
@@ -248,11 +311,9 @@ def initialize_chatbot():
     try:
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
         
-        
         client = get_mongo_client()
         if client:
             db = client[DB_NAME]
-            
             if db["programmes"].count_documents({}) == 0:
                 if os.path.exists(JSON_SOURCE_file):
                     setup_database(JSON_SOURCE_file)
@@ -309,12 +370,20 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
         logger.info(f"Code '{programme_code}' found. Using direct manual filtering.")
         relevant_docs = [doc for doc in all_documents if doc.metadata.get("programme_code") == programme_code]
         
+        # --- 關鍵修正：強制抓取資料庫中的官方網址 ---
         forced_url = find_program_url(programme_code, programme_data)
         if forced_url:
             logger.info(f"Identified official URL: {forced_url}")
+            logger.info(f"Force scraping official URL: {forced_url}")
+            # 直接去抓官網，不靠搜尋引擎
+            official_site_content = scrape_website_content(forced_url)
+            if official_site_content:
+                web_content += f"\n\n--- Official Website Content ({forced_url}) ---\n{official_site_content}\n"
+        # ---------------------------------------------
 
         logger.info("Performing Web Search via Tool...")
-        web_content = perform_web_search(user_query, programme_code, programme_data)
+        # 還是做搜尋，作為補充
+        web_content += perform_web_search(user_query, programme_code, programme_data)
         
     else:
         logger.info("No code found. Using general semantic search.")
@@ -410,8 +479,4 @@ def main():
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 if __name__ == "__main__":
-
     main()
-
-
-
