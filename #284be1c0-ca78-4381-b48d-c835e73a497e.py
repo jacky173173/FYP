@@ -7,11 +7,10 @@ import os
 import time
 import urllib3
 import io 
-from bs4 import BeautifulSoup  # 確保有匯入這個
+from bs4 import BeautifulSoup  
 from pypdf import PdfReader 
 from pymongo import MongoClient
 from duckduckgo_search import DDGS
-from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -68,35 +67,34 @@ def scrape_website_content(url: str) -> str:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         }
-        # verify=False 忽略 SSL 錯誤，避免學校網站擋截
+
         response = requests.get(url, headers=headers, timeout=10, verify=False) 
         response.raise_for_status()
         
         content_type = response.headers.get('Content-Type', '').lower()
         
-        # --- 針對 PDF 的處理邏輯 ---
         if 'application/pdf' in content_type or url.endswith('.pdf'):
             try:
                 with io.BytesIO(response.content) as f:
                     reader = PdfReader(f)
                     text = ""
-                    # 讀前 5 頁，避免太長
+                    # read the first 5 page only
                     for page in reader.pages[:5]:
                         text += page.extract_text() + "\n"
-                    return text[:8000] # PDF 字數限制
+                    return text[:8000] # PDF word limit
             except Exception as pdf_err:
                 logger.warning(f"PDF parsing failed: {pdf_err}")
                 return ""
         # ---------------------------
 
-        # --- HTML 處理邏輯 (BeautifulSoup) ---
+        # --- HTML  ---
         soup = BeautifulSoup(response.content, 'html.parser')
         
         for script in soup(["script", "style", "nav", "footer", "header", "aside", "noscript"]):
             script.extract()
             
         text = soup.get_text(separator=' ', strip=True)
-        return text[:8000] # HTML 字數限制
+        return text[:8000] # HTML word limit
         
     except Exception as e:
         logger.warning(f"Failed to scrape {url}: {e}")
@@ -113,26 +111,26 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
     
     search_queries = []
     
-    # 針對課程結構/學分的特殊搜尋
+    
     if any(k in clean_query.lower() for k in ['unit', 'credit', 'curriculum', 'course', 'structure']):
         search_queries.append(f"HKBU {programme_code} study schedule filetype:pdf") 
         search_queries.append(f"HKBU {programme_code} curriculum structure")
     
-    # 針對找人/顧問的特殊搜尋
+   
     if any(k in clean_query.lower() for k in ['who', 'advisor', 'professor', 'staff', 'list']):
         search_queries.append(f"List the academic advisors for {programme_code} {faculty_name}")
     
-    # 針對獎學金的特殊搜尋
+
     if "scholarship" in clean_query.lower():
         search_queries.append(f"HKBU {faculty_name} entrance scholarship details")
 
-    # 一般搜尋
+    
     if faculty_name:
         search_queries.append(f"HKBU {faculty_name} {programme_code} {clean_query}")
     
     search_queries.append(f"HKBU {programme_code} {clean_query}")
 
-    # 黑名單過濾
+    
     blocked_domains = [
         "zhihu.com", "facebook.com", "instagram.com", "twitter.com", 
         "linkedin.com", "youtube.com", "pinterest.com", "discuss.com.hk"
@@ -144,7 +142,7 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
     for q in search_queries:
         logger.info(f"Asking Search API to find: {q}")
         try:
-            # backend="lite" 對於檔案和學術搜尋通常較穩定
+            
             results = ddgs.text(q, max_results=6, backend="lite")
             
             if results:
@@ -153,7 +151,7 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
                 scraped_count = 0
                 
                 for res in results:
-                    if scraped_count >= 2: # 每個關鍵字最多爬 2 個網頁
+                    if scraped_count >= 2: # key word page limit
                         break
                         
                     link = res.get('href', '')
@@ -161,7 +159,7 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
                     
                     if not link: continue
 
-                    # 檢查是否為黑名單網域
+                    
                     if any(blocked in link for blocked in blocked_domains):
                         logger.info(f"Skipping blocked domain: {link}")
                         continue
@@ -370,19 +368,19 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
         logger.info(f"Code '{programme_code}' found. Using direct manual filtering.")
         relevant_docs = [doc for doc in all_documents if doc.metadata.get("programme_code") == programme_code]
         
-        # --- 關鍵修正：強制抓取資料庫中的官方網址 ---
+        # --- using the website from database ---
         forced_url = find_program_url(programme_code, programme_data)
         if forced_url:
             logger.info(f"Identified official URL: {forced_url}")
             logger.info(f"Force scraping official URL: {forced_url}")
-            # 直接去抓官網，不靠搜尋引擎
+            
             official_site_content = scrape_website_content(forced_url)
             if official_site_content:
                 web_content += f"\n\n--- Official Website Content ({forced_url}) ---\n{official_site_content}\n"
         # ---------------------------------------------
 
         logger.info("Performing Web Search via Tool...")
-        # 還是做搜尋，作為補充
+        
         web_content += perform_web_search(user_query, programme_code, programme_data)
         
     else:
