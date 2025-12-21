@@ -15,6 +15,7 @@ from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from typing import Dict, Any, Tuple
+from langchain_community.vectorstores import FAISS
 
 # SSL 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -478,5 +479,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
