@@ -8,5 +8,6 @@ faiss-cpu
 duckduckgo-search
 beautifulsoup4
 pymongo
-PdfReader
+pypdf
 dnspython
+
