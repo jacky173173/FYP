@@ -16,7 +16,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from typing import Dict, Any, Tuple
 
-# SSL 設定
+# SSL 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Configuration
@@ -478,3 +478,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
