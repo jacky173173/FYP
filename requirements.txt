@@ -12,5 +12,3 @@ pypdf
 dnspython
 webdriver-manager
 selenium
-
-
