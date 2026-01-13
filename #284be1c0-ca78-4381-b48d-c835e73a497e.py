@@ -68,182 +68,153 @@ def find_program_url(code: str, data: Dict) -> str:
 def scrape_website_content(url: str) -> str:
     """
     Scrapes URL using Selenium.
-    Optimized for Streamlit Cloud (Auto-detects Chromium binary).
+    Optimized for Streamlit Cloud to fix Version Mismatch.
     """
     logger.info(f"🚀 Starting Selenium scrape for: {url}")
     
-    # 顯示 UI 提示 (讓你知道它正在工作)
     try:
-        st.toast(f"🕸️ 正在爬取: {url}...", icon="⏳")
-    except:
-        pass # 防止在非 Streamlit 線程運行時報錯
+        # UI 提示
+        try:
+            st.toast(f"🕸️ 正在讀取網頁: {url}...", icon="⏳")
+        except:
+            pass
 
-    # 1. 設定 Chrome 選項
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # 必須無頭模式
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage") # 解決記憶體問題
-    
-    # 偽裝 User-Agent (這是繞過 404/403 的關鍵)
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+        # 1. 設定 Chrome 選項
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")  
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
-    try:
-        # --- 針對 Streamlit Cloud 的關鍵修正 ---
-        # 嘗試自動尋找 Chromium 的安裝位置
-        chromium_path = shutil.which("chromium") or shutil.which("chromium-browser")
+        # --- 關鍵修正：優先使用系統安裝的 Driver ---
+        # Streamlit Cloud 的 packages.txt 會把 driver 裝在 /usr/bin/chromedriver
+        service = None
         
-        if chromium_path:
-            logger.info(f"📍 Found Chromium at: {chromium_path}")
+        # 尋找 Chromium 瀏覽器
+        chromium_path = shutil.which("chromium") or shutil.which("chromium-browser") or "/usr/bin/chromium"
+        if chromium_path and os.path.exists(chromium_path):
             chrome_options.binary_location = chromium_path
+            logger.info(f"📍 Found Chromium binary at: {chromium_path}")
+        
+        # 尋找 ChromeDriver 驅動
+        system_driver_path = "/usr/bin/chromedriver"
+        if os.path.exists(system_driver_path):
+            logger.info(f"📍 Found System ChromeDriver at: {system_driver_path}")
+            # 直接使用系統驅動，不要用 ChromeDriverManager 下載新的
+            service = Service(executable_path=system_driver_path)
         else:
-            logger.warning("⚠️ Chromium binary not found! Selenium might fail on Cloud.")
+            logger.warning("⚠️ System ChromeDriver not found, falling back to ChromeDriverManager...")
+            service = Service(ChromeDriverManager().install())
         
         # 啟動 WebDriver
-        service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
-        # ---------------------------------------
         
         # 2. 前往網址
+        driver.set_page_load_timeout(20) # 設定超時
         driver.get(url)
         
-        # 3. 等待 JavaScript 載入 (這解決了 "內容空白" 的問題)
-        time.sleep(4) 
+        # 3. 等待載入
+        time.sleep(3) 
         
-        # 4. 取得渲染後的 HTML
+        # 4. 取得內容
         page_source = driver.page_source
-        
-        # 5. 關閉瀏覽器
         driver.quit()
         
-        # 6. 解析 HTML
+        # 5. 解析
         soup = BeautifulSoup(page_source, 'html.parser')
         
-        # 移除干擾元素
-        for script in soup(["script", "style", "nav", "footer", "header", "noscript", "iframe", "svg"]):
-            script.decompose()
+        # 移除雜訊
+        for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "iframe", "svg", "button"]):
+            tag.decompose()
             
         text = soup.get_text(separator=' ', strip=True)
         
-        # 記錄結果長度
         logger.info(f"✅ Scraped {len(text)} chars from {url}")
-        return text
+        
+        # 如果內容太短，可能是被擋了
+        if len(text) < 200:
+             logger.warning(f"⚠️ Content too short ({len(text)} chars). Possible anti-bot block.")
+             return ""
+             
+        return text[:10000] # 增加字數限制，避免資料被切斷
 
     except Exception as e:
         logger.error(f"❌ Selenium error for {url}: {e}")
+        # 在 UI 顯示錯誤以便除錯
+        # st.error(f"無法讀取網頁: {e}") 
         return ""
 
 def perform_web_search(query: str, programme_code: str, programme_data: Dict) -> str:
     """
-    Uses DuckDuckGo API but PRIORITIZES Database URLs.
-    Falls back to search if necessary.
+    Uses DuckDuckGo but handles failures gracefully.
     """
     clean_query = query.replace(programme_code, "").strip()
-    faculty_name = get_faculty_name(programme_code, programme_data)
     
     combined_results = ""
     seen_urls = set()
 
-    # --- STRATEGY 0: Prioritize Official URL from Database ---
-    # 這是您的救命稻草：如果搜尋壞了，這行保證 Demo 能跑
-    # 檢查所有可能的欄位名稱
+    # --- 策略 1: 優先讀取資料庫網址 (這最穩) ---
     db_url = (programme_data.get('information_website') or 
               programme_data.get('url') or 
               programme_data.get('website'))
     
     if db_url:
-        logger.info(f"🎯 Found Official URL in DB: {db_url}. Scraping directly...")
-        try:
-            st.toast(f"🎯 發現資料庫網址，直接讀取...", icon="⚡")
-            direct_content = scrape_website_content(db_url)
-            
-            if direct_content and len(direct_content) > 100:
-                seen_urls.add(db_url)
-                combined_results += f"\n\n--- [OFFICIAL SOURCE FROM DB]: {programme_code} Official Page ({db_url}) ---\n"
-                combined_results += f"{direct_content}\n"
-                
-                # --- 修改這裡：不要直接 return ---
-                # 如果問題包含 "course", "structure", "subject" 等字眼，
-                # 官網首頁可能不夠，我們需要讓它繼續往下執行 DuckDuckGo 搜尋
-                detailed_keywords = ['course', 'structure', 'curriculum', 'subject', 'module', 'unit']
-                if any(k in clean_query.lower() for k in detailed_keywords):
-                    logger.info("Query needs details, continuing to Web Search...")
-                else:
-                    # 如果只是問一般介紹，讀完首頁就可以停了
-                    return combined_results 
-                # -----------------------------
+        logger.info(f"🎯 Found DB URL: {db_url}")
+        st.toast("🎯 正在讀取官方網頁...", icon="⚡")
+        content = scrape_website_content(db_url)
+        if content:
+            seen_urls.add(db_url)
+            combined_results += f"\n\n--- [OFFICIAL SOURCE]: {db_url} ---\n{content}\n"
+    # -------------------------------------------
 
-        except Exception as e:
-            logger.error(f"❌ Error scraping DB URL: {e}")
-    # ---------------------------------------------------------
-
-    # --- STRATEGY 1: DuckDuckGo Search (Fallback & Supplement) ---
-    
+    # --- 策略 2: 搜尋補充資料 ---
     search_queries = []
     base_search = f"site:hkbu.edu.hk {programme_code}"
     
-    # 根據問題類型優化關鍵字
-    if any(k in clean_query.lower() for k in ['unit', 'credit', 'curriculum', 'course', 'structure']):
-        search_queries.append(f"{base_search} curriculum structure")
-    elif any(k in clean_query.lower() for k in ['career', 'job', 'prospect', 'work']):
-        search_queries.append(f"{base_search} career prospects")
+    if "career" in clean_query.lower():
+        search_queries.append(f"{base_search} career")
+    elif "fee" in clean_query.lower():
+        search_queries.append(f"{base_search} tuition fee")
     else:
-        search_queries.append(f"{base_search} programme information")
-        if clean_query:
-            search_queries.append(f"{base_search} {clean_query}")
-
-    # 定義黑名單
-    blocked_domains = [
-        "zhihu.com", "facebook.com", "instagram.com", "twitter.com", 
-        "linkedin.com", "youtube.com", "discuss.com.hk", "lihkg.com", "dcard.tw"
-    ]
+        search_queries.append(f"{base_search} admission")
 
     ddgs = DDGS()
-
-    # 如果已經有 DB URL 的資料，我們只搜 1 次作為補充；否則搜 2 次
-    max_search_loops = 1 if combined_results else 2
-
-    for i, q in enumerate(search_queries):
-        if i >= max_search_loops: break
-
-        logger.info(f"🔍 Asking Search API to find: {q}")
+    
+    # 限制搜尋次數
+    for q in search_queries[:2]:
+        logger.info(f"🔍 Searching: {q}")
         try:
-            st.toast(f"🔍 搜尋中: {q}...", icon="🔎")
-            
-            # 移除 backend="lite"，讓它自動選擇，並加入 retry 機制
+            # 這裡的 timeout 設短一點，避免卡住
             results = ddgs.text(q, max_results=2)
             
-            if results:
-                for res in results:
-                    link = res.get('href', '')
-                    title = res.get('title', '')
-                    
-                    if not link or link in seen_urls: continue
-                    if any(blocked in link for blocked in blocked_domains): continue
-                    
-                    is_official = ".edu.hk" in link
-                    # 過濾掉完全不相關的標題
-                    if "hkbu" not in title.lower() and programme_code.lower() not in title.lower() and not is_official:
-                        continue
+            if not results:
+                logger.warning(f"No results for {q}")
+                continue
 
-                    logger.info(f"🕷️ Scraping Search Result: {link}")
-                    page_content = scrape_website_content(link)
-                    
-                    if page_content and len(page_content) > 100:
-                        seen_urls.add(link)
-                        source_label = "[OFFICIAL SEARCH RESULT]" if is_official else "[EXTERNAL SOURCE]"
-                        combined_results += f"\n\n--- {source_label}: {title} ({link}) ---\n"
-                        combined_results += f"{page_content}\n"
-                        
-                        # 如果資料夠多了就提早結束
-                        if len(seen_urls) >= 3: 
-                            return combined_results
+            for res in results:
+                link = res.get('href', '')
+                if not link or link in seen_urls: continue
+                
+                # 只爬取 .edu.hk 的連結，增加成功率
+                if "hkbu.edu.hk" not in link: continue
+
+                logger.info(f"🕷️ Scraping Search Result: {link}")
+                content = scrape_website_content(link)
+                if content:
+                    seen_urls.add(link)
+                    combined_results += f"\n\n--- [SEARCH RESULT]: {link} ---\n{content}\n"
+                    if len(seen_urls) >= 3: return combined_results
+
         except Exception as e:
-            logger.warning(f"Search error (likely IP block): {e}")
-            st.toast("⚠️ 搜尋引擎連線不穩，使用現有資料...", icon="⚠️")
-            time.sleep(1)
+            logger.warning(f"DuckDuckGo error: {e}")
+            # 這裡不報錯，因為我們可能已經有 DB URL 的資料了
             continue
 
+    if not combined_results:
+        logger.warning("❌ No web data found at all.")
+        return "System Note: Unable to access real-time web data currently. Using database records only."
+        
     return combined_results
 
 def extract_code_and_query(query: str, data: Dict) -> Tuple[str | None, str]:
@@ -542,6 +513,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
