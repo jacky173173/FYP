@@ -10,4 +10,5 @@ beautifulsoup4
 pymongo
 pypdf
 dnspython
+selenium
 
