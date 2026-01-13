@@ -16,8 +16,14 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from typing import Dict, Any, Tuple
 from langchain_community.vectorstores import FAISS
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+from bs4 import BeautifulSoup
 
-# SSL 
+# SSL 設定
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Configuration
@@ -31,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 # --- Database and API Configuration ---
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "618b624b-c619-457b-baed-e4f777b391fe" 
+apiKey = "f9417b3a-2029-4d3d-94e4-799f2db6740d" 
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -59,126 +65,154 @@ def find_program_url(code: str, data: Dict) -> str:
 
 def scrape_website_content(url: str) -> str:
     """
-    Fetches text from URL. Supports HTML and PDF.
+    Scrapes URL using Selenium to handle JavaScript-rendered content.
     """
-    if not url or not url.startswith('http'):
-        return ""
+    logger.info(f"🚀 Starting Selenium scrape for: {url}")
     
+    # 1. 設定 Chrome 選項 (無頭模式：不跳出視窗)
+    chrome_options = Options()
+    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    # 偽裝 User-Agent
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
     try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        }
-
-        response = requests.get(url, headers=headers, timeout=10, verify=False) 
-        response.raise_for_status()
+        # 2. 自動下載並啟動對應版本的 Chrome Driver
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         
-        content_type = response.headers.get('Content-Type', '').lower()
+        # 3. 前往網址
+        driver.get(url)
         
-        if 'application/pdf' in content_type or url.endswith('.pdf'):
-            try:
-                with io.BytesIO(response.content) as f:
-                    reader = PdfReader(f)
-                    text = ""
-                    # read the first 5 page only
-                    for page in reader.pages[:5]:
-                        text += page.extract_text() + "\n"
-                    return text[:8000] # PDF word limit
-            except Exception as pdf_err:
-                logger.warning(f"PDF parsing failed: {pdf_err}")
-                return ""
-        # ---------------------------
-
-        # --- HTML  ---
-        soup = BeautifulSoup(response.content, 'html.parser')
+        # 4. [關鍵] 等待 JavaScript 執行 (等待 5 秒)
+        # 如果網頁載入很慢，可以設久一點，或用更高級的 WebDriverWait
+        time.sleep(5)
         
-        for script in soup(["script", "style", "nav", "footer", "header", "aside", "noscript"]):
-            script.extract()
+        # 5. 取得渲染後的 HTML (這時候就有資料了！)
+        page_source = driver.page_source
+        
+        # 6. 關閉瀏覽器
+        driver.quit()
+        
+        # 7. 像之前一樣用 BeautifulSoup 解析
+        soup = BeautifulSoup(page_source, 'html.parser')
+        
+        # 移除干擾元素
+        for script in soup(["script", "style", "nav", "footer", "header", "noscript"]):
+            script.decompose()
             
         text = soup.get_text(separator=' ', strip=True)
-        return text[:8000] # HTML word limit
         
+        if len(text) < 100:
+             logger.warning("Selenium retrieved very little content.")
+             
+        return text[:10000] # 限制回傳長度
+
     except Exception as e:
-        logger.warning(f"Failed to scrape {url}: {e}")
+        logger.error(f"❌ Selenium error for {url}: {e}")
         return ""
 
 def perform_web_search(query: str, programme_code: str, programme_data: Dict) -> str:
     """
-    Uses DuckDuckGo API.
-    COMBINES content from top results.
-    Includes DOMAIN FILTERING to avoid Zhihu/Social Media.
+    Uses DuckDuckGo API with STRICT RELIABILITY CONTROLS.
+    UPDATED: Now prioritizes the official URL found in the database.
     """
     clean_query = query.replace(programme_code, "").strip()
     faculty_name = get_faculty_name(programme_code, programme_data)
     
+    combined_results = ""
+    seen_urls = set()
+
+    # --- STRATEGY 0: Prioritize Official URL from Database ---
+    # 這是新增的邏輯：如果資料庫裡已經有網址，直接爬取該網址
+    db_url = programme_data.get('url') or programme_data.get('website')
+    
+    if db_url:
+        logger.info(f"🎯 Found Official URL in DB: {db_url}. Scraping directly...")
+        try:
+            direct_content = scrape_website_content(db_url)
+            if direct_content and len(direct_content) > 100:
+                seen_urls.add(db_url)
+                combined_results += f"\n\n--- [OFFICIAL SOURCE FROM DB]: {programme_code} Official Page ({db_url}) ---\n"
+                combined_results += f"{direct_content}\n"
+                logger.info("✅ Successfully scraped DB URL.")
+            else:
+                logger.warning(f"⚠️ Content from DB URL {db_url} was empty or too short.")
+        except Exception as e:
+            logger.error(f"❌ Error scraping DB URL: {e}")
+    # ---------------------------------------------------------
+
+    # --- STRATEGY 1: DuckDuckGo Search (Fallback & Supplement) ---
+    # 即使爬了官網，我們可能還是需要搜尋其他資訊（如新聞、具體面試日期等），
+    # 但如果 DB URL 內容已經很豐富，這裡會作為補充。
+    
     search_queries = []
     
+    # 建立搜尋關鍵字
+    base_search = f"site:hkbu.edu.hk {programme_code}"
     
     if any(k in clean_query.lower() for k in ['unit', 'credit', 'curriculum', 'course', 'structure']):
-        search_queries.append(f"HKBU {programme_code} study schedule filetype:pdf") 
-        search_queries.append(f"HKBU {programme_code} curriculum structure")
-    
-   
-    if any(k in clean_query.lower() for k in ['who', 'advisor', 'professor', 'staff', 'list']):
-        search_queries.append(f"List the academic advisors for {programme_code} {faculty_name}")
-    
+        search_queries.append(f"{base_search} curriculum structure pdf")
+    elif any(k in clean_query.lower() for k in ['career', 'job', 'prospect', 'work']):
+        search_queries.append(f"{base_search} career prospects")
+    elif any(k in clean_query.lower() for k in ['fee', 'scholarship', 'money']):
+        search_queries.append(f"{base_search} tuition fee scholarship")
+    else:
+        search_queries.append(f"{base_search} programme information")
+        if clean_query:
+            search_queries.append(f"{base_search} {clean_query}")
 
-    if "scholarship" in clean_query.lower():
-        search_queries.append(f"HKBU {faculty_name} entrance scholarship details")
-
-    
-    if faculty_name:
-        search_queries.append(f"HKBU {faculty_name} {programme_code} {clean_query}")
-    
-    search_queries.append(f"HKBU {programme_code} {clean_query}")
-
+    # Fallback: 如果沒有代碼，用學院名稱搜
+    if faculty_name and not programme_code:
+        search_queries.append(f"HKBU {faculty_name} {clean_query}")
     
     blocked_domains = [
         "zhihu.com", "facebook.com", "instagram.com", "twitter.com", 
-        "linkedin.com", "youtube.com", "pinterest.com", "discuss.com.hk"
+        "linkedin.com", "youtube.com", "pinterest.com", "discuss.com.hk",
+        "lihkg.com", "student.hk", "dcard.tw"
     ]
 
-    combined_results = ""
     ddgs = DDGS()
-    
-    for q in search_queries:
-        logger.info(f"Asking Search API to find: {q}")
+
+    # 限制搜尋次數，如果已經有 DB 資料，我們只搜 1-2 次補充即可
+    max_search_loops = 2 if combined_results else 3 
+
+    for i, q in enumerate(search_queries):
+        if i >= max_search_loops: break # 避免搜太多次變慢
+
+        logger.info(f"🔍 Asking Search API to find: {q}")
         try:
-            
-            results = ddgs.text(q, max_results=6, backend="lite")
+            results = ddgs.text(q, max_results=2, backend="lite")
             
             if results:
-                combined_results += f"\n\n=== Search Context for '{q}' ===\n"
-                
-                scraped_count = 0
-                
                 for res in results:
-                    if scraped_count >= 2: # key word page limit
-                        break
-                        
                     link = res.get('href', '')
                     title = res.get('title', '')
                     
-                    if not link: continue
-
+                    if not link or link in seen_urls: continue
+                    if any(blocked in link for blocked in blocked_domains): continue
                     
-                    if any(blocked in link for blocked in blocked_domains):
-                        logger.info(f"Skipping blocked domain: {link}")
+                    is_official = ".edu.hk" in link
+                    # 過濾非相關標題
+                    if "hkbu" not in title.lower() and programme_code.lower() not in title.lower() and not is_official:
                         continue
+
+                    logger.info(f"🕷️ Scraping Search Result: {link}")
+                    page_content = scrape_website_content(link)
                     
-                    logger.info(f"Deep scraping: {link}")
-                    full_content = scrape_website_content(link)
-                    
-                    if full_content and len(full_content) > 100:
-                        combined_results += f"\n--- Source: {title} ({link}) ---\n"
-                        combined_results += f"{full_content}\n"
-                        scraped_count += 1
-                
-                if len(combined_results) > 500: 
-                    return combined_results
-                    
+                    if page_content and len(page_content) > 100:
+                        seen_urls.add(link)
+                        source_label = "[OFFICIAL SEARCH RESULT]" if is_official else "[EXTERNAL SOURCE]"
+                        combined_results += f"\n\n--- {source_label}: {title} ({link}) ---\n"
+                        combined_results += f"{page_content}\n"
+                        
+                        # 如果已經有足夠資料（例如已經有 DB URL + 1 個搜尋結果），就提早結束
+                        if len(seen_urls) >= 3: 
+                            return combined_results
         except Exception as e:
-            logger.warning(f"Search API error for '{q}': {e}")
-            time.sleep(1) 
+            logger.warning(f"Search error: {e}")
+            time.sleep(1)
             continue
 
     return combined_results
@@ -369,19 +403,19 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
         logger.info(f"Code '{programme_code}' found. Using direct manual filtering.")
         relevant_docs = [doc for doc in all_documents if doc.metadata.get("programme_code") == programme_code]
         
-        # --- using the website from database ---
+        # --- 關鍵修正：強制抓取資料庫中的官方網址 ---
         forced_url = find_program_url(programme_code, programme_data)
         if forced_url:
             logger.info(f"Identified official URL: {forced_url}")
             logger.info(f"Force scraping official URL: {forced_url}")
-            
+            # 直接去抓官網，不靠搜尋引擎
             official_site_content = scrape_website_content(forced_url)
             if official_site_content:
                 web_content += f"\n\n--- Official Website Content ({forced_url}) ---\n{official_site_content}\n"
         # ---------------------------------------------
 
         logger.info("Performing Web Search via Tool...")
-        
+        # 還是做搜尋，作為補充
         web_content += perform_web_search(user_query, programme_code, programme_data)
         
     else:
@@ -479,7 +513,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
