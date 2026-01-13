@@ -20,6 +20,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import shutil
 import time
 from bs4 import BeautifulSoup
 
@@ -65,37 +66,40 @@ def find_program_url(code: str, data: Dict) -> str:
 
 def scrape_website_content(url: str) -> str:
     """
-    Scrapes URL using Selenium to handle JavaScript-rendered content.
+    Scrapes URL using Selenium (Streamlit Cloud Compatible).
     """
     logger.info(f"🚀 Starting Selenium scrape for: {url}")
     
-    # 1. 設定 Chrome 選項 (無頭模式：不跳出視窗)
+    # 1. 設定 Chrome 選項
     chrome_options = Options()
-    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--headless")  # 必須無頭模式
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage") # 解決記憶體問題
+    
     # 偽裝 User-Agent
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
     try:
-        # 2. 自動下載並啟動對應版本的 Chrome Driver
+        # --- 針對 Streamlit Cloud 的關鍵修正 ---
+        # 嘗試自動尋找 Chromium 的安裝位置
+        # Streamlit Cloud 通常安裝在 /usr/bin/chromium 或 /usr/bin/chromium-browser
+        chromium_path = shutil.which("chromium") or shutil.which("chromium-browser")
+        
+        if chromium_path:
+            chrome_options.binary_location = chromium_path
+        
+        # 啟動 WebDriver
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
+        # ---------------------------------------
         
-        # 3. 前往網址
         driver.get(url)
+        time.sleep(3) # 等待載入
         
-        # 4. [關鍵] 等待 JavaScript 執行 (等待 5 秒)
-        # 如果網頁載入很慢，可以設久一點，或用更高級的 WebDriverWait
-        time.sleep(5)
-        
-        # 5. 取得渲染後的 HTML (這時候就有資料了！)
         page_source = driver.page_source
-        
-        # 6. 關閉瀏覽器
         driver.quit()
         
-        # 7. 像之前一樣用 BeautifulSoup 解析
         soup = BeautifulSoup(page_source, 'html.parser')
         
         # 移除干擾元素
@@ -103,11 +107,7 @@ def scrape_website_content(url: str) -> str:
             script.decompose()
             
         text = soup.get_text(separator=' ', strip=True)
-        
-        if len(text) < 100:
-             logger.warning("Selenium retrieved very little content.")
-             
-        return text[:10000] # 限制回傳長度
+        return text[:3000]
 
     except Exception as e:
         logger.error(f"❌ Selenium error for {url}: {e}")
@@ -513,3 +513,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
