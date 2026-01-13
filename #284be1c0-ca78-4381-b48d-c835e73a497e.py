@@ -127,7 +127,7 @@ def scrape_website_content(url: str) -> str:
         
         # 記錄結果長度
         logger.info(f"✅ Scraped {len(text)} chars from {url}")
-        return text[:3000] # 限制長度
+        return text
 
     except Exception as e:
         logger.error(f"❌ Selenium error for {url}: {e}")
@@ -162,11 +162,17 @@ def perform_web_search(query: str, programme_code: str, programme_data: Dict) ->
                 combined_results += f"\n\n--- [OFFICIAL SOURCE FROM DB]: {programme_code} Official Page ({db_url}) ---\n"
                 combined_results += f"{direct_content}\n"
                 
-                # 如果已經成功抓到官網，通常這就夠了，不需要再去搜尋引擎冒險
-                # 但如果您還想搜新聞，可以保留下面的搜尋邏輯
-                logger.info("✅ Successfully scraped DB URL.")
-            else:
-                logger.warning(f"⚠️ Content from DB URL {db_url} was empty or too short.")
+                # --- 修改這裡：不要直接 return ---
+                # 如果問題包含 "course", "structure", "subject" 等字眼，
+                # 官網首頁可能不夠，我們需要讓它繼續往下執行 DuckDuckGo 搜尋
+                detailed_keywords = ['course', 'structure', 'curriculum', 'subject', 'module', 'unit']
+                if any(k in clean_query.lower() for k in detailed_keywords):
+                    logger.info("Query needs details, continuing to Web Search...")
+                else:
+                    # 如果只是問一般介紹，讀完首頁就可以停了
+                    return combined_results 
+                # -----------------------------
+
         except Exception as e:
             logger.error(f"❌ Error scraping DB URL: {e}")
     # ---------------------------------------------------------
@@ -536,5 +542,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
