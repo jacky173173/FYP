@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 
 # --- Database and API Configuration ---
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "f9417b3a-2029-4d3d-94e4-799f2db6740d" 
+apiKey = "8507838f-a5c7-444a-a293-0781b2b395ed" 
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -513,6 +513,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
