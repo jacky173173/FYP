@@ -1,3 +1,4 @@
+
 import streamlit as st
 import requests
 import json
@@ -39,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 # --- Database and API Configuration ---
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "8507838f-a5c7-444a-a293-0781b2b395ed" 
+apiKey = "94975088-2d58-443e-bbd1-92a62791c795" 
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -62,7 +63,115 @@ def find_program_url(code: str, data: Dict) -> str:
     for faculty in data.get("faculties", []):
         for programme in faculty.get("programmes", []):
             if programme.get("code") == code:
-                return programme.get("information_website", "")
+                # 優先順序: information_website > url > website
+                return (programme.get("information_website") or 
+                        programme.get("url") or 
+                        programme.get("website") or "")
+    return ""
+
+def extract_code_and_query(query: str, data: Dict) -> Tuple[str | None, str]:
+    query_upper = query.upper()
+    # 支援 JS2510 或 CIE-THMG 格式
+    code_match = re.search(r'(JS\d{4}|[A-Z]{2,4}-[A-Z]{2,4})', query_upper)
+    if code_match:
+        code = code_match.group(0)
+        # 簡單驗證代碼是否存在於資料中
+        if any(prog.get("code", "").upper() == code for fac in data.get("faculties", []) for prog in fac.get("programmes", [])):
+            logger.info(f"Found and verified code '{code}' in query.")
+            return code, query
+    return None, query
+
+# --- NEW: Specific Function Calling Tools (針對您指定的欄位) ---
+
+def tool_get_first_year_intake(db, programme_code):
+    """
+    [Tool] 直接從 MongoDB 提取首年入學學額
+    Target Key: 'first_year_intake'
+    """
+    try:
+        doc = db["programmes"].find_one(
+            {"code": programme_code}, 
+            {"first_year_intake": 1, "_id": 0}
+        )
+        if doc and "first_year_intake" in doc:
+            val = doc['first_year_intake']
+            return f"✅ [Verified DB Record] First Year Intake for {programme_code}: {val}"
+    except Exception as e:
+        logger.error(f"Tool Error (Intake): {e}")
+    return None
+
+def tool_get_credits_required(db, programme_code):
+    """
+    [Tool] 直接從 MongoDB 提取畢業學分要求
+    Target Key: 'credits_required_for_graduation'
+    """
+    try:
+        doc = db["programmes"].find_one(
+            {"code": programme_code}, 
+            {"credits_required_for_graduation": 1, "_id": 0}
+        )
+        if doc and "credits_required_for_graduation" in doc:
+            val = doc['credits_required_for_graduation']
+            return f"✅ [Verified DB Record] Credits Required for Graduation for {programme_code}: {val}"
+    except Exception as e:
+        logger.error(f"Tool Error (Credits): {e}")
+    return None
+
+def tool_get_jupas_score(db, programme_code):
+    """
+    [Tool] 直接從 MongoDB 提取 JUPAS 入學分數
+    Target Key: 'jupas_admission_score'
+    """
+    try:
+        doc = db["programmes"].find_one(
+            {"code": programme_code}, 
+            {"jupas_admission_score": 1, "_id": 0}
+        )
+        if doc and "jupas_admission_score" in doc:
+            val = doc['jupas_admission_score']
+            return f"✅ [Verified DB Record] JUPAS Admission Score for {programme_code}: {val}"
+    except Exception as e:
+        logger.error(f"Tool Error (Score): {e}")
+    return None
+
+def execute_function_calls(query: str, programme_code: str) -> str:
+    """
+    [Router] 意圖識別與工具調度器
+    根據用戶的問題，決定去 MongoDB 查詢哪一個欄位。
+    """
+    client = get_mongo_client()
+    if not client: return ""
+    
+    db = client[DB_NAME]
+    tool_results = []
+    query_lower = query.lower()
+
+    try:
+        # 1. 檢測是否問「學額/人數」 (Intake/Quota/Places)
+        if any(k in query_lower for k in ["intake", "quota", "places", "seats", "how many students", "vacancy"]):
+            logger.info(f"🔧 Triggering Tool: tool_get_first_year_intake for {programme_code}")
+            result = tool_get_first_year_intake(db, programme_code)
+            if result: tool_results.append(result)
+
+        # 2. 檢測是否問「學分/畢業要求」 (Credits/Units/Graduation)
+        if any(k in query_lower for k in ["credit", "unit", "graduation", "graduate", "study load"]):
+            logger.info(f"🔧 Triggering Tool: tool_get_credits_required for {programme_code}")
+            result = tool_get_credits_required(db, programme_code)
+            if result: tool_results.append(result)
+
+        # 3. 檢測是否問「JUPAS 分數」 (Score/Admission Score/JUPAS)
+        if any(k in query_lower for k in ["score", "admission score", "jupas", "mean", "median", "point"]):
+            logger.info(f"🔧 Triggering Tool: tool_get_jupas_score for {programme_code}")
+            result = tool_get_jupas_score(db, programme_code)
+            if result: tool_results.append(result)
+            
+    finally:
+        client.close()
+
+    # 如果有工具被觸發，將結果合併回傳
+    if tool_results:
+        return "\n\n=== [SYSTEM TOOL OUTPUT] (High Reliability - Extracted from MongoDB) ===\n" + "\n".join(tool_results) + "\n==================================================================\n"
+    
     return ""
 
 def scrape_website_content(url: str) -> str:
@@ -398,35 +507,45 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
     relevant_docs = []
     web_content = ""
     forced_url = "" 
+    tool_output = "" 
 
     if programme_code:
-        logger.info(f"Code '{programme_code}' found. Using direct manual filtering.")
+        logger.info(f"Code '{programme_code}' found. Starting Hybrid Search & Tool Use.")
+        
+        # 1. 基礎 RAG: Metadata 過濾
         relevant_docs = [doc for doc in all_documents if doc.metadata.get("programme_code") == programme_code]
         
-        # --- 關鍵修正：強制抓取資料庫中的官方網址 ---
-        forced_url = find_program_url(programme_code, programme_data)
-        if forced_url:
-            logger.info(f"Identified official URL: {forced_url}")
-            logger.info(f"Force scraping official URL: {forced_url}")
-            # 直接去抓官網，不靠搜尋引擎
-            official_site_content = scrape_website_content(forced_url)
-            if official_site_content:
-                web_content += f"\n\n--- Official Website Content ({forced_url}) ---\n{official_site_content}\n"
-        # ---------------------------------------------
-
-        logger.info("Performing Web Search via Tool...")
-        # 還是做搜尋，作為補充
+        # --- NEW: 2. Function Calling (程式化精確查詢) ---
+        tool_output = execute_function_calls(user_query, programme_code)
+        if tool_output:
+            try:
+                st.toast(f"🔧 已啟用精確數據查詢工具 (MongoDB)", icon="🛠️")
+            except: pass
+        # ------------------------------------------------
+        
+        # 3. 補充搜尋 (Web Search + Scraping)
         web_content += perform_web_search(user_query, programme_code, programme_data)
+        
+        # 抓出 URL 供 Metadata 使用
+        forced_url = find_program_url(programme_code, programme_data)
         
     else:
         logger.info("No code found. Using general semantic search.")
         retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 5})
         relevant_docs = retriever.invoke(search_query)
 
+    # --- 組合最終 Context ---
     context = ""
+    
+    # A. 工具輸出 (最高權重)
+    if tool_output:
+        context += tool_output
+
+    # B. 資料庫文檔
     if relevant_docs:
         context += "\n\n---\n\n".join([doc.page_content for doc in relevant_docs])
     
+    # C. 爬蟲內容
     if web_content:
         context += web_content
         
@@ -436,12 +555,12 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
     if not context:
         context = "No relevant information found."
 
+    # --- 構建 API 請求 ---
     final_messages_from_template = prompt_template.format_messages(context=context, question=user_query)
     role_map = {"human": "user", "ai": "assistant", "system": "system"}
     api_messages = [{"role": role_map.get(msg.type, "user"), "content": msg.content} for msg in final_messages_from_template]
     
-    conversation = api_messages 
-    payload = {'messages': conversation, 'max_tokens': 6000}
+    payload = {'messages': api_messages, 'max_tokens': 6000}
     
     try:
         response = requests.post(
@@ -452,8 +571,7 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
         data = response.json()
         return data['choices'][0]['message']['content']
     except requests.RequestException as e:
-        error_details = e.response.text if e.response else str(e)
-        logger.error(f"API request failed: {e}. Details: {error_details}")
+        logger.error(f"API request failed: {e}")
         return f"Sorry, API request failed: {str(e)}"
 
 #  Streamlit UI
