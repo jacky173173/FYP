@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 
 # --- Database and API Configuration ---
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "94975088-2d58-443e-bbd1-92a62791c795" 
+apiKey = "8e1147c6-338d-4afe-9a4a-96e203e7b94a" 
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
@@ -446,36 +446,39 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
     prompt_template = chatbot_data['prompt_template']
 
     programme_code, search_query = extract_code_and_query(user_query, programme_data)
-    
+
+    # NEW: 如果今次冇 code，用 history 推斷
+    if not programme_code:
+        inferred = infer_programme_code_from_history(chat_history, programme_data)
+        if inferred:
+            programme_code = inferred
+            search_query = user_query  # 保留原 query 做語意檢索/工具觸發
+
     relevant_docs = []
     web_content = ""
-    forced_url = "" 
-    tool_output = "" 
+    forced_url = ""
+    tool_output = ""
 
     if programme_code:
-        logger.info(f"Code '{programme_code}' found. Using direct manual filtering.")
+        logger.info(f"Code '{programme_code}' found (direct or inferred). Using direct manual filtering.")
         relevant_docs = [doc for doc in all_documents if doc.metadata.get("programme_code") == programme_code]
-        
-        # --- NEW: Function Calling (整合到你的 working code 中) ---
+
         tool_output = execute_function_calls(user_query, programme_code)
         if tool_output:
-            # 讓 UI 顯示一個小提示
             try:
-                st.toast(f"🔧 已啟用精確數據查詢工具", icon="🛠️")
+                st.toast("🔧 已啟用精確數據查詢工具", icon="🛠️")
             except:
                 pass
-        
-        # --- 強制抓取資料庫中的官方網址 ---
+
         forced_url = find_program_url(programme_code, programme_data)
         if forced_url:
             logger.info(f"Identified official URL: {forced_url}")
             official_site_content = scrape_website_content(forced_url)
             if official_site_content:
                 web_content += f"\n\n--- Official Website Content ({forced_url}) ---\n{official_site_content}\n"
-        
-        # --- 補充搜尋 ---
+
         web_content += perform_web_search(user_query, programme_code, programme_data)
-        
+
     else:
         logger.info("No code found. Using general semantic search.")
         retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 5})
@@ -483,7 +486,12 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
 
     # --- 組合最終 Context ---
     context = ""
-    
+
+    # NEW: 只放最近 8 條 history（可改 max_messages=4~8）
+    history_text = build_history_text(chat_history, max_messages=8, max_chars=3500)
+    if history_text:
+        context += f"--- Recent Chat History (last 8 messages) ---\n{history_text}\n\n"
+
     # 1. 工具輸出 (最高權重)
     if tool_output:
         context += tool_output
@@ -491,14 +499,14 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
     # 2. 資料庫文檔
     if relevant_docs:
         context += "\n\n---\n\n".join([doc.page_content for doc in relevant_docs])
-    
+
     # 3. 爬蟲內容
     if web_content:
         context += web_content
-        
+
     if forced_url:
         context += f"\n\n[Metadata] Official Website: {forced_url}"
-    
+
     if not context:
         context = "No relevant information found."
 
@@ -506,13 +514,14 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
     final_messages_from_template = prompt_template.format_messages(context=context, question=user_query)
     role_map = {"human": "user", "ai": "assistant", "system": "system"}
     api_messages = [{"role": role_map.get(msg.type, "user"), "content": msg.content} for msg in final_messages_from_template]
-    
+
     payload = {'messages': api_messages, 'max_tokens': 6000}
-    
+
     try:
         response = requests.post(
             f"{basicUrl}/deployments/{modelName}/chat/completions?api-version={apiVersion}",
-            json=payload, headers={'Content-Type': 'application/json', 'api-key': apiKey}
+            json=payload,
+            headers={'Content-Type': 'application/json', 'api-key': apiKey}
         )
         response.raise_for_status()
         data = response.json()
@@ -521,6 +530,51 @@ def get_response(user_query: str, chat_history: list, chatbot_data: dict) -> str
         logger.error(f"API request failed: {e}")
         return f"Sorry, API request failed: {str(e)}"
 
+def infer_programme_code_from_history(chat_history: list, programme_data: Dict) -> str | None:
+    """
+    若用戶 follow-up 冇再打 programme code，就由最近 user 訊息倒序推斷一次。
+    """
+    if not chat_history:
+        return None
+
+    for m in reversed(chat_history):
+        if m.get("role") != "user":
+            continue
+        code, _ = extract_code_and_query(m.get("content", ""), programme_data)
+        if code:
+            return code
+    return None
+
+
+def build_history_text(chat_history: list, max_messages: int = 8, max_chars: int = 3500) -> str:
+    """
+    將最近的對話轉成短文本，放入 context 供模型參考。
+    - max_messages: 只保留最近 N 條（建議 4–8）
+    - max_chars: 避免 context 太長
+    """
+    if not chat_history:
+        return ""
+
+    recent = chat_history[-max_messages:]
+    lines = []
+    for m in recent:
+        role = m.get("role", "")
+        content = (m.get("content") or "").strip()
+        if not content:
+            continue
+
+        if role == "user":
+            lines.append(f"User: {content}")
+        elif role == "assistant":
+            lines.append(f"Assistant: {content}")
+        else:
+            # 其他角色（若未來你加入 system/tool）
+            lines.append(f"{role.capitalize()}: {content}")
+
+    text = "\n".join(lines).strip()
+    if len(text) > max_chars:
+        text = text[-max_chars:]
+    return text
 # --- Streamlit UI ---
 
 def main():
@@ -552,11 +606,10 @@ def main():
     """, unsafe_allow_html=True)
 
     chatbot_data = initialize_chatbot()
-
     if not chatbot_data:
         st.error("Chatbot Initialization failed. Please check if MongoDB is running.")
         st.stop()
-    
+
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
@@ -569,11 +622,14 @@ def main():
         with st.chat_message("user"):
             st.markdown(prompt)
 
+        # NEW: 把「當前 user 訊息」之前的歷史傳入（避免重覆）
+        history = st.session_state.messages[:-1]
+
         with st.chat_message("assistant"):
             with st.spinner("Searching database and web..."):
-                response = get_response(prompt, [], chatbot_data)
+                response = get_response(prompt, history, chatbot_data)
                 st.markdown(response)
-        
+
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 if __name__ == "__main__":
