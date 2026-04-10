@@ -42,9 +42,7 @@ modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
 
 # --- MongoDB Configuration ---
-user = st.secrets["jacky173173_db_user"]
-password = st.secrets["Jacky2026test"]
-MONGO_URI = f"mongodb+srv://{user}:{quote_plus(password)}@cluster0.7rbkruk.mongodb.net/?appName=Cluster0"
+MONGO_URI = "mongodb+srv://jacky173173_db_user:Jacky2026test@cluster0.7rbkruk.mongodb.net/?retryWrites=true&w=majority"
 DB_NAME = "hkbu_admissions"
 
 # --- Helper Functions ---
