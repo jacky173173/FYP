@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 
 # --- Database and API Configuration ---
 JSON_SOURCE_file = 'fixed_data.json'
-apiKey = "c7b40152-f67d-4131-bcd3-9093dad8adc4" 
+apiKey = "44b6e1ef-a956-492a-982f-1540e9c72ded" 
 basicUrl = "https://genai.hkbu.edu.hk/api/v0/rest"
 modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
