@@ -42,7 +42,7 @@ modelName = "gpt-4.1-mini"
 apiVersion = "2024-12-01-preview"
 
 # --- MongoDB Configuration ---
-MONGO_URI = "mongodb+srv://jacky173173_db_user:Jacky2026test@cluster0.7rbkruk.mongodb.net/?retryWrites=true&w=majority"
+MONGO_URI = "mongodb+srv://jacky173173_db_user:Jacky2026test@cluster0.7rbkruk.mongodb.net/?appName=Cluster0"
 DB_NAME = "hkbu_admissions"
 
 # --- Helper Functions ---
